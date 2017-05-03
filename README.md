@@ -1,2 +1,5 @@
 # Config-files
-dot config files
+
+My config files.
+Currently here:
+	- .vimrc
