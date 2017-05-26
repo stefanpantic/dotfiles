@@ -6,11 +6,11 @@
 " |<basic settings>                                            |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 let mapleader=","
+syntax on
 set splitbelow
 set tabstop=4
 set shiftwidth=4
 set wildmenu
-syntax on
 set number
 set history=200
 set linebreak
@@ -21,6 +21,15 @@ set undofile
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+"" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<tabs>                                       <basic settings>|
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <leader>ee <Esc>:tabnew<space>
+nnoremap <leader>ll <Esc>:+tabnext<CR>
+nnoremap <leader>hh <Esc>:-tabnext<CR>
+nnoremap <leader>gg <Esc>:tabnext<space>
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -133,9 +142,9 @@ set laststatus=2
 let g:airline_powerline_fonts = 1
 "let g:airline_theme="violet"
 let g:airline_theme="onedark"
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#show_buffers = 0
-"let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 1
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
