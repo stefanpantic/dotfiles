@@ -26,10 +26,20 @@ set completeopt-=preview
 "" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<tabs>                                       <basic settings>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-nnoremap <leader>ee <Esc>:tabnew<space>
-nnoremap <leader>ll <Esc>:+tabnext<CR>
-nnoremap <leader>hh <Esc>:-tabnext<CR>
+nnoremap <leader>e <Esc>:tabnew<space>
+nnoremap <leader>+ <Esc>:+tabnext<CR>
+nnoremap <leader>- <Esc>:-tabnext<CR>
+nnoremap <leader>1 <Esc>:tabnext 1<CR>
+nnoremap <leader>2 <Esc>:tabnext 2<CR>
+nnoremap <leader>3 <Esc>:tabnext 3<CR>
+nnoremap <leader>4 <Esc>:tabnext 4<CR>
+nnoremap <leader>5 <Esc>:tabnext 5<CR>
+nnoremap <leader>6 <Esc>:tabnext 6<CR>
+nnoremap <leader>7 <Esc>:tabnext 7<CR>
+nnoremap <leader>8 <Esc>:tabnext 8<CR>
+nnoremap <leader>9 <Esc>:tabnext 9<CR>
 nnoremap <leader>gg <Esc>:tabnext<space>
+nnoremap <leader>one <Esc>:tabonly<CR>
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -144,7 +154,11 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme="onedark"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#show_close_button = 0
+"let g:airline#extensions#tabline#show_tabs = 1
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -160,8 +174,9 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_complete_in_comments = 1
+let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
-nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR>
+nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "let g:ycm_add_preview_to_completeopt = 1
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
