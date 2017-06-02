@@ -1,4 +1,4 @@
-"" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<name>                                               <flags>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -80,8 +80,11 @@ Plugin 'jiangmiao/auto-pairs'
 " |<easy-motion>                                <plugin><speed>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Plugin 'easymotion/vim-easymotion'
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" =-=-=-=-=-=-=-=-=-
+" |<settings>	   |
+" =-=-=-=-=-=-=-=-=-
 let g:EasyMotion_smartcase = 1
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<neco-ghc>                         <plugin><syntax><haskell>|
@@ -180,6 +183,7 @@ let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
 nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
