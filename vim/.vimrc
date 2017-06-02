@@ -18,28 +18,32 @@ set autoindent
 set smartindent
 set cursorline
 set undofile
+set scrolloff=5
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
+set timeoutlen=500
+set shell=bash
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-"" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<tabs>                                       <basic settings>|
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<tabs>                                      <basic settings>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap <leader>e <Esc>:tabnew<space>
-nnoremap <leader>+ <Esc>:+tabnext<CR>
-nnoremap <leader>- <Esc>:-tabnext<CR>
-nnoremap <leader>1 <Esc>:tabnext 1<CR>
-nnoremap <leader>2 <Esc>:tabnext 2<CR>
-nnoremap <leader>3 <Esc>:tabnext 3<CR>
-nnoremap <leader>4 <Esc>:tabnext 4<CR>
-nnoremap <leader>5 <Esc>:tabnext 5<CR>
-nnoremap <leader>6 <Esc>:tabnext 6<CR>
-nnoremap <leader>7 <Esc>:tabnext 7<CR>
-nnoremap <leader>8 <Esc>:tabnext 8<CR>
-nnoremap <leader>9 <Esc>:tabnext 9<CR>
-nnoremap <leader>gg <Esc>:tabnext<space>
-nnoremap <leader>one <Esc>:tabonly<CR>
+nnoremap <silent><leader>+ <Esc>:+tabnext<CR>
+nnoremap <silent><leader>- <Esc>:-tabnext<CR>
+nnoremap <silent><leader>1 <Esc>:tabnext 1<CR>
+nnoremap <silent><leader>2 <Esc>:tabnext 2<CR>
+nnoremap <silent><leader>3 <Esc>:tabnext 3<CR>
+nnoremap <silent><leader>4 <Esc>:tabnext 4<CR>
+nnoremap <silent><leader>5 <Esc>:tabnext 5<CR>
+nnoremap <silent><leader>6 <Esc>:tabnext 6<CR>
+nnoremap <silent><leader>7 <Esc>:tabnext 7<CR>
+nnoremap <silent><leader>8 <Esc>:tabnext 8<CR>
+nnoremap <silent><leader>9 <Esc>:tabnext 9<CR>
+nnoremap <silent><leader>gg <Esc>:tabnext<space>
+nnoremap <leader>ww <Esc>:wa<CR>
+nnoremap <silent><leader>one <Esc>:tabonly<CR>
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -77,6 +81,7 @@ Plugin 'jiangmiao/auto-pairs'
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Plugin 'easymotion/vim-easymotion'
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+let g:EasyMotion_smartcase = 1
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<neco-ghc>                         <plugin><syntax><haskell>|
@@ -177,6 +182,7 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
 nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
+"nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
 "let g:ycm_add_preview_to_completeopt = 1
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -187,16 +193,8 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<cursor settings>                                            |
