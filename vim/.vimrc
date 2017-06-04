@@ -27,7 +27,7 @@ set shell=bash
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<tabs>                                      <basic settings>|
+" |<tabs>                                       <tabs settings>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap <leader>e <Esc>:tabnew<space>
 nnoremap <silent><leader>+ <Esc>:+tabnext<CR>
@@ -42,8 +42,16 @@ nnoremap <silent><leader>7 <Esc>:tabnext 7<CR>
 nnoremap <silent><leader>8 <Esc>:tabnext 8<CR>
 nnoremap <silent><leader>9 <Esc>:tabnext 9<CR>
 nnoremap <silent><leader>gg <Esc>:tabnext<space>
-nnoremap <leader>ww <Esc>:wa<CR>
 nnoremap <silent><leader>one <Esc>:tabonly<CR>
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<quicksave>                                       <mappings>|
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <leader>xx <Esc>:xa<CR>
+nnoremap <leader>ww <Esc>:wa<CR>
+cnoreabbrev W w
+cnoreabbrev Q q
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -125,6 +133,7 @@ Plugin 'justinmk/vim-syntax-extra'
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<space-vim-dark theme>                       <plugin><theme>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Plugin 'liuchengxu/space-vim-dark'
@@ -185,7 +194,7 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
-nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
+nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
 "let g:ycm_add_preview_to_completeopt = 1
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -194,8 +203,6 @@ nnoremap <leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
 "
 " Put your non-Plugin stuff after this line
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
