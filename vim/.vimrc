@@ -30,7 +30,7 @@ set shell=bash
 " |<tabs>                                       <tabs settings>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap <leader>e <Esc>:tabnew<space>
-nnoremap <silent><leader>+ <Esc>:+tabnext<CR>
+nnoremap <silent><leader>= <Esc>:+tabnext<CR>
 nnoremap <silent><leader>- <Esc>:-tabnext<CR>
 nnoremap <silent><leader>1 <Esc>:tabnext 1<CR>
 nnoremap <silent><leader>2 <Esc>:tabnext 2<CR>
@@ -49,7 +49,9 @@ nnoremap <silent><leader>one <Esc>:tabonly<CR>
 " |<quicksave>                                       <mappings>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap <leader>xx <Esc>:xa<CR>
-nnoremap <leader>ww <Esc>:wa<CR>
+nnoremap <leader>w <Esc>:w<CR>
+nnoremap <leader>q <Esc>:q<CR>
+nnoremap <leader>x <Esc>:x<CR>
 cnoreabbrev W w
 cnoreabbrev Q q
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
