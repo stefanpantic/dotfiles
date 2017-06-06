@@ -1,6 +1,6 @@
 " File: .vimrc
 " Author: Stefan Pantic <stefanpantic13@gmail.com>
-" Source: https://github.com/syIar/Cofig-files/vim
+" Source: https://github.com/syIar/dotfiles/vim
 "
 " Section marker:
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -33,14 +33,18 @@ set autoindent
 set smartindent
 set cursorline
 set scrolloff=5
-set notimeout
-set ttimeout
-set ttimeoutlen=10
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
 "set timeoutlen=500
 set shell=/bin/bash
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<normal timeout>                                            |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set notimeout
+set ttimeout
+set ttimeoutlen=10
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<wildmenu completion>                                       |
@@ -105,6 +109,12 @@ cnoreabbrev Q q
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap j gj
 nnoremap k gk
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<make moving to begin/end of line not retarded>             |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap H ^
+nnoremap L $
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " <clean trailing whitespace>                                  |
@@ -197,12 +207,11 @@ colorscheme onedark
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 set laststatus=2
 let g:airline_powerline_fonts = 1
-"let g:airline_theme="violet"
 let g:airline_theme="onedark"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#tab_nr_type = 1
-let g:airline#extensions#tabline#buffer_min_count = 2
+"let g:airline#extensions#tabline#buffer_min_count = 2
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#show_close_button = 0
 "let g:airline#extensions#tabline#show_tabs = 1
