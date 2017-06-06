@@ -36,7 +36,6 @@ set scrolloff=5
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
-"set timeoutlen=500
 set shell=/bin/bash
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -45,11 +44,12 @@ set shell=/bin/bash
 set notimeout
 set ttimeout
 set ttimeoutlen=10
+"set timeoutlen=500
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<wildmenu completion>                                       |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-set wildmenu
+set wildmenu " I'm a real wild one, wold one...
 set wildignore+=.hg,.git,.svn " version control
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
@@ -105,14 +105,17 @@ cnoreabbrev W w
 cnoreabbrev Q q
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<normal movement in wrapped lines>                          |
+" |<normal movement in wrapped lines, it's 2017>           |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap j gj
 nnoremap k gk
+nnoremap gj j
+nnoremap gk k
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<make moving to begin/end of line not retarded>             |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" I never used the default mappings so this is ok
 nnoremap H ^
 nnoremap L $
 
@@ -146,7 +149,9 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <let Vundle manage itself, Vundleception>                    |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Plugin 'VundleVim/Vundle.vim'
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
