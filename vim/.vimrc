@@ -49,12 +49,12 @@ set ttimeoutlen=10
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<wildmenu completion>                                       |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-set wildmenu " I'm a real wild one, wold one...
-set wildignore+=.hg,.git,.svn " version control
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.sw? " Vim swap files
-set wildignore+=*.DS_Store " OSX bullshit
+set wildmenu " I'm a real wild one, wild one...
+set wildignore+=.hg,.git,.svn "ignore version control
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "ignore binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "ignore compiled object files
+set wildignore+=*.sw? "ignore Vim swap files
+set wildignore+=*.DS_Store "ignore OSX bullshit
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<return to same line on reopen>                             |
@@ -72,6 +72,7 @@ augroup END
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 set undofile
 set backup
+set noswapfile " it's 2017
 set undodir=~/.vim/tmp/undo//     " undo files
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap//   " swap files
@@ -103,9 +104,16 @@ nnoremap <leader>xx <Esc>:xa<CR>
 "nnoremap <leader>x <Esc>:x<CR>
 cnoreabbrev W w
 cnoreabbrev Q q
+cnoreabbrev Wq wq
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<normal movement in wrapped lines, it's 2017>           |
+" <change line numbering>                                      |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <silent><leader>rn <Esc>:set rnu<CR>
+nnoremap <silent><leader>nrn <Esc>:set nornu<CR>
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<normal movement in wrapped lines, it's 2017 Vim>           |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap j gj
 nnoremap k gk
@@ -113,16 +121,15 @@ nnoremap gj j
 nnoremap gk k
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<make moving to begin/end of line not retarded>             |
+" |<make moving to begin/end usable>                           |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" I never used the default mappings so this is ok
 nnoremap H ^
 nnoremap L $
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " <clean trailing whitespace>                                  |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-nnoremap <leader>ss mz:%s/\s\+$//<CR>:let @/=''<CR>`z
+nnoremap <leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<cursor settings>                                            |
@@ -223,7 +230,7 @@ let g:airline#extensions#tabline#show_close_button = 0
 "let g:airline#extensions#tabline#show_tabs = 1
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<YouCompleteMe>           <semantic><syntax><c++><c>|
+" |<YouCompleteMe <3>           <semantic><syntax><c++><c>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_python_interpreter = '/usr/bin/python'
@@ -231,8 +238,10 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
 nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
