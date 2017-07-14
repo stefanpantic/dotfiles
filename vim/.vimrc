@@ -54,7 +54,7 @@ set wildignore+=.hg,.git,.svn "ignore version control
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "ignore binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "ignore compiled object files
 set wildignore+=*.sw? "ignore Vim swap files
-set wildignore+=*.DS_Store "ignore OSX bullshit
+set wildignore+=*.DS_Store "ignore MacOS bullshit
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<return to same line on reopen>                             |
@@ -94,7 +94,6 @@ nnoremap <silent><leader>8 <Esc>:tabnext 8<CR>
 nnoremap <silent><leader>9 <Esc>:tabnext 9<CR>
 nnoremap <silent><leader>gg <Esc>:tabnext<space>
 nnoremap <silent><leader>one <Esc>:tabonly<CR>
-
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<quicksaving>                                               |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -129,7 +128,7 @@ nnoremap L $
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " <clean trailing whitespace>                                  |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-nnoremap <leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
+nnoremap <silent><leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<cursor settings>                                            |
@@ -137,6 +136,11 @@ nnoremap <leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
 let &t_SI = "\<Esc>[5 q" " normal mode - block
 let &t_SR = "\<Esc>[3 q" " replace mode - underline
 let &t_EI = "\<Esc>[1 q" " insert mode - line
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+"|<fixing MacOS annoyance>                                     |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+inoremap § ~
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " </general settings>                                                  |
@@ -240,8 +244,8 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_seed_identifiers_with_syntax = 1
+"let g:ycm_collect_identifiers_from_comments_and_strings = 1
+"let g:ycm_seed_identifiers_with_syntax = 1
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
 nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
