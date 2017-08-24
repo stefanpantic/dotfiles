@@ -1,6 +1,6 @@
 " File: init.vim
 " Author: Stefan Pantic <stefanpantic13@gmail.com>
-" Source: https://github.com/syIar/dotfiles/nvim
+" Source: https://github.com/stefanpantic/dotfiles/nvim
 "
 " Section marker:
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -14,7 +14,7 @@
 
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<general settings>                        <making vim behave sanely>|
+" |<general settings>               <making terminal vim behave sanely>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -238,7 +238,7 @@ let g:airline#extensions#tabline#show_close_button = 0
 "let g:airline#extensions#tabline#show_tabs = 1
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<YouCompleteMe <3>           <semantic><syntax><c++><c>|
+" |<YouCompleteMe <3>        <semantic><syntax><c++><c>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_python_interpreter = '/usr/bin/python'

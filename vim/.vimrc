@@ -1,6 +1,6 @@
 " File: .vimrc
 " Author: Stefan Pantic <stefanpantic13@gmail.com>
-" Source: https://github.com/syIar/dotfiles/vim
+" Source: https://github.com/stefanpantic/dotfiles/vim
 "
 " Section marker:
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -37,6 +37,8 @@ set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
 set shell=/bin/bash
+set autochdir
+set nohlsearch
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<normal timeout>                                            |
@@ -55,6 +57,7 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "ignore binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "ignore compiled object files
 set wildignore+=*.sw? "ignore Vim swap files
 set wildignore+=*.DS_Store "ignore MacOS bullshit
+set wildignore+=*.dSYM/ "ignore debug infor
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<return to same line on reopen>                             |
@@ -81,7 +84,7 @@ set directory=~/.vim/tmp/swap//   " swap files
 " |<tab settings>                                              |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap <leader>e <Esc>:tabnew<space>
-nnoremap <silent><leader>= <Esc>:tabNext<CR>
+nnoremap <silent><leader>= <Esc>:tabnext<CR>
 nnoremap <silent><leader>- <Esc>:tabprevious<CR>
 nnoremap <silent><leader>1 <Esc>:tabnext 1<CR>
 nnoremap <silent><leader>2 <Esc>:tabnext 2<CR>
@@ -179,6 +182,7 @@ Plugin 'joshdick/onedark.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'tpope/vim-surround'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<plugin settings>                                    <flags>|
@@ -245,7 +249,7 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
 "let g:ycm_collect_identifiers_from_comments_and_strings = 1
-"let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 "let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
 nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
