@@ -11,5 +11,15 @@ Vim
 <h2>
 Neovim
 </h2>
-	1. init.vim
+	1. init.vim <br>
+<h2>
+Bash
+</h2>
+	1. .bash_profile <br>
+<h2>
+Fish
+</h2>
+	1. config.fish <br>
+	2. custom functions <br>
+	3 conf.d <br>
 </p>
