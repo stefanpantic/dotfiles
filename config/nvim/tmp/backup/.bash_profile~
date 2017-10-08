@@ -1,7 +1,0 @@
-#
-# ~/.bash_profile
-#
-
-export MANPAGER="nvim -c 'set ft=man' -"
-
-#[[ -f ~/.bashrc ]] && . ~/.bashrc
