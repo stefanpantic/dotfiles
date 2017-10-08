@@ -1,0 +1,45 @@
+#include <iostream>
+#include <cmath>
+#include <GL/gl.h>
+#include <GL/glut.h>
+
+void display_function(void)
+{
+	glColor3f(1.0, 0, 0);
+	glBegin(GL_LINE_LOOP);
+		int points = 100;
+		for(int i = 0; i < points; ++i)
+		{
+			double angle = (2*M_PI*i)/points;
+			glVertex2f(std::cos(angle), std::sin(angle));
+		}
+	glEnd();
+
+	glutSwapBuffers();
+	glFlush();
+}
+
+void reshape_function(int w, int h)
+{
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_VIEWPORT);
+	glLoadIdentity();
+	gluOrtho2D(0, 0, w, h);
+}
+
+int
+main (int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glClearColor(1.0, 0.5, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+	glutCreateWindow("Main");
+
+	glutReshapeFunc(reshape_function);
+	glutDisplayFunc(display_function);
+
+	glutMainLoop();
+
+	return 0;
+}

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [ $# -lt 1 ];
+then
+	echo "Invalid num of args"
+	exit
+fi
+
+case $1 in
+	-mute)
+		mute=$(amixer -c 1 get Master | grep -o -e '\[on\]')
+
+		if [ -z $mute ];
+		then
+			amixer -c 1 set Master on
+			amixer -c 1 set Headphone on
+			amixer -c 1 set Speaker on
+		else
+			amixer -c 1 set Master off
+			amixer -c 1 set Headphone off
+			amixer -c 1 set Speaker off
+		fi
+		;;
+	-inc)
+		shift
+		if [ $# -lt 1 ];
+		then
+			echo "Invalid number of args"
+			exit 1
+		fi
+		amixer -c 1 set Master $1+
+		;;
+	-dec)
+		shift
+		if [ $# -lt 1 ];
+		then
+			echo "Invalid number of args"
+			exit 1
+		fi
+		amixer -c 1 set Master $1-	
+		;;
+	*)
+		echo "Unkown arg"
+		exit 1
+		;;
+esac

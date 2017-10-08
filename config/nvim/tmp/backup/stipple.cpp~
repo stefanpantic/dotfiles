@@ -1,0 +1,100 @@
+#include <iostream>
+#include <GL/glut.h>
+
+double r{0.0}, g{0.0}, b{0.0};
+
+#define draw_line(x1, y1, x2, y2)	\
+do	\
+{	\
+	glBegin(GL_LINES);	\
+		glColor3f(r, g, b);	\
+		glVertex3f((x1), (y1), 0.0);	\
+		glVertex3f((x2), (y2), 0.0);	\
+	glEnd();	\
+} while (false)
+
+void init(void)
+{
+	glClearColor(0.0, 0.0, 0.0, 0);
+}
+
+void change_rgb(void)
+{
+	if(r < 1.0)
+		r += 0.1;
+	else if (g < 1.0)
+		g += 0.1;
+	else if (b < 1.0)
+		b += 0.1;
+	else
+		r = g = b = 0;
+}
+
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_LINE_STIPPLE);
+
+	glLoadIdentity(); // DONT FORGET THIS!!!!!
+
+	change_rgb();
+
+	glLineWidth(1);
+	glLineStipple(1, 0x00ff);
+	draw_line(-0.5, 0.5, 0.5, 0.5);
+
+	glLineWidth(2);
+	glLineStipple(2, 0xaaaa);
+	draw_line(-0.5, 0.45, 0.5, 0.45);
+
+	glLineWidth(3);
+	glLineStipple(3, 0xffff);
+	draw_line(-0.5, 0.35, 0.5, 0.35);
+
+	glLineWidth(4);
+	glLineStipple(4, 0x00ff);
+	draw_line(-0.5, 0.25, 0.5, 0.25);
+
+	glLineWidth(5);
+	glLineStipple(5, 0xaaaa);
+	draw_line(-0.5, 0.15, 0.5, 0.15);
+
+	glLineWidth(6);
+	glLineStipple(6, 0xffff);
+	draw_line(-0.5, 0.05, 0.5, 0.05);
+
+	glDisable(GL_LINE_STIPPLE);
+
+	glutSwapBuffers(); // REMEMBER TO SWAP BUFFERS
+	glFlush();
+}
+
+// @param w Width
+// @param h Height
+void reshape(int w, int h)
+{
+	// adjusts for the canvas to be the entire window
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0.0, w, 0.0, h);
+}
+
+int
+main (int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitWindowSize(640, 480);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	glutCreateWindow("chapter02 - stipple lines");
+
+	init();
+
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutIdleFunc(display);
+
+	glutMainLoop();
+
+	return 0;
+}

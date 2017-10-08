@@ -1,0 +1,77 @@
+#include <iostream>
+#include <GL/glut.h>
+
+double spin{0.0}, adv{0.1};
+
+void init(void)
+{
+	glClearColor(1.0, 1.0, 1.0, 0);
+}
+
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glLoadIdentity();
+	glRotatef(spin, 0.0, 0.0, 0.1);
+	spin += adv;
+	glBegin(GL_TRIANGLE_STRIP);
+		glColor3f(1.0, 0, 0);
+		glVertex3f(0.5, 0.5, 0);
+		glVertex3f(0.5, -0.5, 0);
+		glVertex3f(-0.5, -0.5, 0);
+		glVertex3f(-0.5, 0.5, 0);
+	glEnd();
+
+	glutSwapBuffers(); // REMEMBER TO SWAP BUFFERS
+	glFlush();
+}
+
+// @param w Width
+// @param h Height
+void reshape(int w, int h)
+{
+	// adjusts for the canvas to be the entire window
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0.0, w, 0.0, h);
+}
+
+void idle(void)
+{
+	// this is good for now
+	display();
+}
+
+int
+main (int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitWindowSize(640, 480);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	glutCreateWindow("chapter02");
+
+	init();
+
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutIdleFunc(idle);
+	glutMouseFunc([] (int key, int state, int x, int y)
+			{
+				(void)state;
+				(void)x;
+				(void)y;
+
+				if(GLUT_LEFT_BUTTON == key)
+					adv += 0.1;
+				else if (GLUT_RIGHT_BUTTON == key)
+					adv -= 0.1;
+				else
+					adv = 0;
+			});
+
+	glutMainLoop();
+
+	return 0;
+}
