@@ -76,9 +76,9 @@ augroup END
 set undofile
 set backup
 set noswapfile " it's 2017
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
+set undodir=~/.config/nvim/tmp/undo//     " undo files
+set backupdir=~/.config/nvim/tmp/backup// " backups
+set directory=~/.config/nvim/tmp/swap//   " swap files
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<tab settings>                                              |
@@ -136,9 +136,9 @@ nnoremap <silent><leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<cursor settings>                                            |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-let &t_SI = "\<Esc>[5 q" " normal mode - block
-let &t_SR = "\<Esc>[3 q" " replace mode - underline
-let &t_EI = "\<Esc>[1 q" " insert mode - line
+"let &t_SI = "\<Esc>[5 q" " normal mode - block
+"let &t_SR = "\<Esc>[3 q" " replace mode - underline
+"let &t_EI = "\<Esc>[1 q" " insert mode - line
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<fixing MacOS annoyance>                                     |
@@ -183,6 +183,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'hdima/python-syntax'
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<plugin settings>                                    <flags>|
@@ -241,16 +242,19 @@ let g:airline#extensions#tabline#show_close_button = 0
 " |<YouCompleteMe <3>        <semantic><syntax><c++><c>|
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_server_python_interpreter = '/usr/bin/python'
+"let g:ycm_server_python_interpreter = '/usr/bin/python'
+"let g:ycm_path_to_python_interpreter = 'usr/bin/python'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_always_populate_location_list = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
-let g:ycm_global_ycm_extra_conf = '~/ycm_global_conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_conf/.ycm_extra_conf.py'
 "let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-"let g:ycm_semantic_triggers = {'haskell' : ['.', '<- ', '| ']}
+let g:ycm_semantic_triggers = {'cpp' : ['gl']}
+let g:ycm_error_symbol = ''
+let g:ycm_warning_symbol = ''
 nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
 "nnoremap <leader>ty <Esc>:YcmCompleter GetType<CR>
 "let g:ycm_add_preview_to_completeopt = 1
