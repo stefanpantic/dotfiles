@@ -26,7 +26,6 @@ set splitbelow
 set splitright
 set tabstop=4
 set shiftwidth=4
-set number
 set history=200
 set linebreak
 set autoindent
@@ -38,7 +37,8 @@ set backspace=indent,eol,start
 set completeopt-=preview
 set shell=/bin/bash
 set autochdir
-set nohlsearch
+set number relativenumber
+"set nohlsearch
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<normal timeout>                                            |
@@ -115,7 +115,21 @@ nnoremap <silent><leader>rn <Esc>:set rnu<CR>
 nnoremap <silent><leader>nrn <Esc>:set nornu<CR>
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-" |<normal movement in wrapped lines, it's 2017 Vim>           |
+" <change line numbering on mode change>                       |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <no highlight search>                                         |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <silent><leader>nh <Esc>:noh<CR>
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<normal movement in wrapped lines, it's 2017 Vim ffs>       |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 nnoremap j gj
 nnoremap k gk
@@ -136,14 +150,11 @@ nnoremap <silent><leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 "|<cursor settings>                                            |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" note: don't need this with neovim, doesn't work properly
+" 		on some terminal emulators
 "let &t_SI = "\<Esc>[5 q" " normal mode - block
 "let &t_SR = "\<Esc>[3 q" " replace mode - underline
 "let &t_EI = "\<Esc>[1 q" " insert mode - line
-
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-"|<fixing MacOS annoyance>                                     |
-" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-inoremap § ~
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " </general settings>                                                  |
@@ -179,6 +190,7 @@ Plugin 'eagletmt/neco-ghc'
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'liuchengxu/space-vim-dark'
 Plugin 'joshdick/onedark.vim'
+Plugin 'yuttie/hydrangea-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'tpope/vim-surround'
@@ -221,6 +233,7 @@ autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
+let g:onedark_terminal_italics = 1
 set termguicolors
 colorscheme onedark
 
@@ -252,7 +265,7 @@ let g:ycm_complete_in_strings = 1
 let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_conf/.ycm_extra_conf.py'
 "let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_semantic_triggers = {'cpp' : ['gl']}
+let g:ycm_semantic_triggers = {'cpp' : ['gl']} " for OpenGL intellisence
 let g:ycm_error_symbol = ''
 let g:ycm_warning_symbol = ''
 nnoremap <silent><leader>f <Esc>:YcmCompleter FixIt<CR><Esc>:ccl<CR>
