@@ -31,7 +31,7 @@ set linebreak
 set autoindent
 set smartindent
 set cursorline
-set scrolloff=5
+set scrolloff=10
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,eol,start
 set completeopt-=preview
@@ -107,6 +107,7 @@ nnoremap <silent><leader>one <Esc>:tabonly<CR>
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Wq wq
+cnoreabbrev WQ wq
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " <change line numbering>                                      |
@@ -126,7 +127,7 @@ augroup END
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " <no highlight search>                                         |
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-nnoremap <silent><leader>nh <Esc>:noh<CR>
+nnoremap <silent><leader>hh <Esc>:noh<CR>
 
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 " |<normal movement in wrapped lines, it's 2017 Vim ffs>       |
@@ -189,9 +190,11 @@ Plugin 'eagletmt/neco-ghc'
 "Plugin 'vim-syntastic/syntastic'
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'liuchengxu/space-vim-dark'
-Plugin 'joshdick/onedark.vim'
+"Plugin 'joshdick/onedark.vim'
+Plugin 'stefanpantic/onedark.vim'
 Plugin 'yuttie/hydrangea-vim'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -242,7 +245,7 @@ colorscheme onedark
 " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 set laststatus=2
 let g:airline_powerline_fonts = 1
-let g:airline_theme="onedark"
+let g:airline_theme="lucius"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#tab_nr_type = 1
