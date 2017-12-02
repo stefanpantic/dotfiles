@@ -1,0 +1,418 @@
+# Cas 02 - Spojeni zadaci Tamare Milic i Danijela Subotica sa vezbi
+# Malo detaljnije pojasnjeni!
+# Zorana Gajic, 400/2016 :)
+
+# Zadatak 00
+# Simuliraj bacanje regularne kockice za igru. Izracunati frekvenciju pojavljivanja
+# sestice u 1000 izvodjenja eksperimenta. Nacrtati histogram frekvencija
+
+    # Zelimo frekvenciju pojavljivanja <=> zelimo verovatnocu ishoda => mean()
+
+    # Simuliramo bacanje kocke. Funkcija sample prima kao prvi argument niz, u nasem slucaju niz
+    # od 1 do 6, drugi argument broj ponavljanja simulacije, u nasem slucaju jedan, replace je po
+    # default-u FALSE, sto je ok u ovoj simulaciji jer samo jednom bacamo,
+    # i poslednji argument je verovatnoca dobijanja svih ishoda pojedinacno, s obzirom da imamo kockiku
+    # verovatnoca dobijanja svakog od ishoda je 1/6. Znaci koja je verovatnoca da dobijemo 1?
+    # 1/6. 2? Isto i tako dalje. Sa funkcijom rep(x, n) dobijamo niz duzine n sa elementima x.
+    # U ovom slucaju rep(1/6, 6) vraca niz (1/6, 1/6, 1/6, 1/6, 1/6, 1/6) sto i jesu nase verovatnoce za svaki od ishoda.
+
+    sample(1:6, 1, prob=rep(1/6, 6))
+
+    # Sad bacimo kosku 1000 puta. Replace mora biti na TRUE. Zasto? Ako ne bi bilo, maksimum bismo
+    # mogli da bacimo 6 puta kockiku bez vracanja.
+    simulacija = sample(1:6, 1000, replace=TRUE, prob=rep(1/6,6))
+
+    # Bacili smo 1000 puta kockicu. Kako da znamo verovatnocu da je bas 6 pala? Kao srednja vrednost gledamo.
+    # mean(simulacija == 6) sta vraca? Pa simulacija je vektor. (simulacija == 6) ce za svaki clan
+    # proveriti da li je jednak 6, ako jeste stavice TRUE, u suprotnom FALSE.
+    # mean(simulacije == 6) ce izracunati koliko se puta naslo true i podeliti duzinom niza. Sto je i definicija srednje vrednosti.
+    mean(simulacija==6)
+
+    # Funkcija hist pravi histogram
+    hist(simulacija)
+
+# Zadatak 01
+# Bacaju se istovremeno kocka za igru i novcic. a) Ispisati skup svih ishoda.
+
+    # Sad istovremeno bacamo i kockicu i novcic, znaci za kocku imamo 6 mogucnosti a za novcic 2.
+    # Pa simulirajmo to.
+
+    # Kockica je vektor sa vrednostima 1,2,3,4,5,6
+    kockica = c(1:6)
+
+    # Novcic je vektor sa vrednostima "Glava" i "Pismo"
+    novcic = c("Glava", "Pismo")
+
+    # Sa funkcijom outer dobijamo matricu svih mogucih ishoda.
+    # Kao prvi argument funkcija prima prvi zeljeni vektor, kao drugi argument drugi
+    # zeljeni vektor, kao treci uvek navodimo FUN='paste' i kao cetvrti navodimo
+    # separator naprimer blanko karakter " ".
+
+    matrica.ishoda = outer(kockica, novcic, FUN='paste', sep="")
+    matrica.ishoda
+
+# b) Da li su svi ishodi jednako verovatni? Ocijeniti verovatnocu ishoda "5Pismo".
+
+    # Hocemo od ove dobijene matrice ishoda napraviti vektor za lakse rukovanje nadalje, to
+    # radimo sa sledecom funkcijom.
+
+    vektor.ishoda = as.vector(matrica.ishoda)
+    vektor.ishoda
+
+    # Sad zelimo da nadjemo da vidimo na kom mestu nam se nalazi "5Pismo"
+    simulacije = sample(vektor.ishoda, 1000, replace = TRUE)
+    mean(simulacije == "5Pismo")
+
+    # Kako smo mogli drugcije da uradimo simulaciju?
+    # Da nadjemo poziciju u vektoru ishoda elementa "5Pismo" i da simuliramo ne na
+    # vektoru ishoda, vec na vektoru cija je duzina ista kao i naseg vektora, ali elementi
+    # su mu od 1 do duzine vektora, u nasem slucaju bi to bilo ovako:
+
+    pozicija.Elementa = which(vektor.ishoda == "5Pismo")
+    simulacija.Brojevna = sample(1:length(vektor.ishoda), 1000, replace=TRUE)
+    mean(simulacija.Brojevna == pozicija.Elementa)
+
+    # U sustini je korisna samo funkcija which da se zna, koja
+    # vraca poziciju zeljenog elementa u vektoru.
+
+# Zadatak 02.
+# Igraci bacaju strelicu na tablu na kojoj se nalaze tri koncentricna kruga poluprecnika 5, 10 i 15 cm. Najveci krug je upisan u kvadrat stranice 30 cm.
+# a) Napisati funkciju strelica() koja simulira opisanu igru. (Funkcija treba da vrati 1-ako je pogodjen prvi krug, 2 za drugi i 3 za treci, -1 ako je strelica van krugova)
+
+    # Za lakse razumevanje zadatka nacrtajte sliku kao sto je opisano u zadatku.
+
+    strelica = function() {
+
+      # Prvo zelimo da dobijemo jednu random tacku iz intervala [-15, 15]. Time smo pokrili sve moguce tacke.
+      # To radimo sa funkcijom runif koja kao prvi argument prima koliko slucajnih brojeva zelimo,
+      # kao drugi argument prima pocetak intervala, a kao treci kraj intervala.
+
+      # Inace tackica u R-u ne znaci nista. Radi "lepseg" imenovanja promenljivih.
+
+      # Znaci mi zelimo 2 slucajna broja koja ce nam biti koordinate neke slucajne tacke.
+      pozicija.XiY = runif(2, -15, 15)
+
+      # Sada zelimo da vidimo gde smo upali sa tom tackom. Kako to radimo? Pa sa jednacinom kruga x^2+y^2 = r^2
+      # Funkcija sum(x) sumira sve elemente vektora x, a sum(x^2) sumira sve kvadrirane elemente vektora x.
+      # Bas ono sto nama treba
+
+      r = sqrt(sum(pozicija.XiY^2))
+
+      if(r <= 5) return(1) # pogodili smo prvi krug
+      else if(r>5 & r<=10) return(2) # pogodili smo drugi krug
+      else if(r>10 & r<=15) return(3) # pogodili smo treci krug
+      else return(-1) # pogodili smo van svih krugova.
+    }
+
+    strelica()
+
+# b) Oceniti verovatnocu da je da je pogodjen 1., odnosno 2. krug.
+
+    # Kako oceniti verovatnocu da je pogodjen 1.krug? Pa kao i pre.
+    # Zelimo ponoviti ovu funkciju jedno 10000 puta i da ubacimo uslov ==1 u mean funkciji. I to je to.
+
+    # Inace, sto vise puta ponovimo simulaciju to cemo biti blizi najtacnijoj verovatnoci.
+
+    # E sad, mi smo radili simulaciju do sad konkretno nad vektorima. Ovde imamo funkciju, koja vraca broj.
+    # Kada zelimo da simuliramo funkcije koristimo funkciju replicate koja kao prvi argument prima koliko
+    # puta zelimo da simuliramo funkciju, kao drugi argument prima koju funkciju zelimo da simuliramo,
+    # kao treci argument uvek stavljamo simplify = "array" ili ne stavimo uopste)
+    simulacija = replicate(1000, strelica(), simplify = "array")
+    mean(simulacija == 1)
+    mean(simulacija == 2)
+
+    # Ako zelimo verovatnocu svih dogadjaja pojedinacno, umesto x puta da pisemo mean, koristi sledece:
+    table(simulacija)          # pokreni vidi kako lepo ispise verovatnocu za svakog pojedinacno tabelarno
+                               # mean(table(simulacija))  pogresno!!! sumirace sve sto nam ne treba
+    frekvencija = table(simulacija)/1000
+    frekvencija
+
+# Igraci A i B naizmjenicno bacaju po tri strelice na tablu. Na pocetku igre imaju po 20 poena.
+# Ako se pogodi prvi krug gubi se 1 poen, drugi 3, treci 5 i van kruga 10 poena. Igru zapocinje igrac A,
+# a zavrsava se kada jedan od igraca izgubi sve poene. Simulirati igru.
+# Napisati funkciju pikado() koja vraca 1 ako je pobedio igrac A, odnosno 2 ako je pobedio igrac B.
+
+    # Zelimo da imamo neki identifikator koji ce reci kada je A na potezu i kada je B na potezu.
+    # B je na potezu kada A nije, znaci dovoljno uvesti jedan identifikator.
+    # Prvo citajte funkciju pikado() pa se prebacite na funkciju poeni() da bi bilo jasnije.
+
+     poeni = function(x) {
+      # X nam je vektor sa mogucim vrednostima -1,1,2,3.
+       krug1 = sum(x==1)
+       krug2 = sum(x==2)
+       krug3 = sum(x==3)
+       kvadrat = sum(x==-1)
+
+       return(krug1*1 + krug2*3 + krug3*5 + kvadrat*10)
+    }
+
+    pikado = function() {
+      poeniA = 20;
+      poeniB = 20;
+
+      A.na_potezu = TRUE;
+
+      # A nam je na potezu.
+      # Sve dok oboje imaju vise od 0 znaci da igra jos traje.
+      # Kako nam se menjaju poeni u svakom bacanju? Zelimo da oduzmemo od trenutnog onoliko koliko je bacio.
+      # To koliko smo skupili u bacanju ce nam raditi funkcija poeni()
+
+      # S obzirom da je A.napotezu boolean to je 1 ili 0 kad je negacija. Znaci u svakoj while petlji ili ce
+      # da racuna za igraca A ili za igraca B.
+
+      # funkciji poeni() zelimo da prosledimo vektor sa tri broja, odnosno sa rezultatima 3 bacanja.
+      # replicate ce 3 puta pozvati funkciju strelica() i vratiti vektor sa tri broja.
+
+      while(poeniA>0 & poeniB>0) {
+        poeniA = poeniA - A.na_potezu*poeni(replicate(3, strelica()))
+        poeniB = poeniA - !A.na_potezu*poeni(replicate(3, strelica()))
+
+        # Menjamo igraca!
+        A.na_potezu = !A.na_potezu
+      }
+
+      # Ako nam je pobedio igrac A, tj poeniA <=0 vrati 1, u suprotnom 2, sto znaci da je pobedio igrac B.
+      ifelse(poeniA<=0, return(1), return(2))
+    }
+
+    # Za kraj treba da odredimo verovatnocu da pobedi igrac koji zapocinje igru. Odnosno igrac A.
+    # Pa simulirajmo ovu funkciju jedno 10000 puta i vidimo koje su verovatnoce da je dobio A ili B sa mean(uslov)
+
+    simuliraj.funkciju = replicate(10000, pikado())
+    # pikado vraca samo 1 ili 2
+    mean(simuliraj.funkciju == 1)
+    mean(simuliraj.funkciju == 2)
+
+
+# Zadatak 03
+# (a) Neka igrac ima pocetni kapital A i on baca kockicu. Ako dobije 1, 3 ili 5, njegov kapital se uveca
+# za 1 dinar, a u suprotnom izgubi 1 dinar. Za N ponovljenih bacanja, nacrtati trajektoriju njegovog kapitala
+# u zavisnosti od trenutnog bacanja. Oceniti verovatnocu da je igrac u plusu nakon n partija?
+
+    trajektorija = function(A,N) {
+
+      # Funkcija numeric(N) pravi vektor od N nula. (0,0,0,0...)
+      # Sta ce nam uopste ovaj vektor? Pa za crtanje trajektorije nam treba vektor sa vrednostima!
+      a = numeric(N)
+
+      # Simuliramo bacanje kockice, sto je za nas vec trivijalno haha
+      kockica = sample(1:6, N, replace = TRUE)
+
+      # Prvi element je A, jer nam je to pocetni kapital! Znaci trajektorija pocinje u tacki (0, A)
+      # Kockica je sad vektor od N elemenata sa pridruzenim mogucim vrednostima od 1 do 6;
+      # kockica[i]%%2 == 1 znaci ako je neparno kapiral uvelicaj za 1, tj naredni element u nizu je prethodni+1,
+      # u suprotnom je prethodni-1;
+
+      a[1] = A
+      for(i in 1:N)
+        ifelse(kockica[i]%%2 == 1, a[i+1]= a[i]+1, a[i+1]= a[i]-1)
+
+      return(a)
+    }
+
+    # Sa funkcjiom plot dobijamo crtanje grafika! Kao prvi argument prihvata vektor, kao drugi navodimo estetske stvari
+    # type="o" i kao treci argument col="orange" naprimer.
+
+    plot(trajektorija(5, 20), type="o", col="orange")
+
+
+    # Ocijeniti vjerovatnocu da igrac zavrsi u plusu posle N partija
+    # Ideja je opet slicna. Prvo, zasto necemo raditi samo funkciju replicate i mean kao i do sad?
+    # Zato sto funkcija trajektorija vraca vektor, a ne jednu vrednost kao do sad.
+    # Zato pravimo pomocnu funkciju.
+
+    plus = function(A,N) {
+
+      # a je vektor, nas interesuje da je zavrsio u plusu, znaci interesuje nas N-ti element!
+      a = trajektorija(A,N)
+      ifelse(a[N]>0, return(1), return(0))
+    }
+
+    simulacijaPlusa = replicate(10000, plus(5,20))
+    simulacijaPlusa
+    mean(simulacijaPlusa)
+
+# Zadatak 04
+# Odrediti povrsinu ispod grafika funkcije sin(x) na intervalu [0,1] uz pomoc MK metode.
+
+    # Ovaj zadatak je sablon uvek se radi isto za bilo koju funkciju.
+
+    MK = function(N) {
+      x = runif(N, 0, 1)
+      y = runif(N, 0, 1)
+      povrsina = sum(y<sin(x))/N
+
+      return(povrsina)
+    }
+
+    MK(100000)
+
+# Zadatak 05
+# Aproksimacija broja Pi
+
+# Ako nasumice odaberemo tacku unutar jedinicnog kvadrata [0,1]x[0,1] verovatnoca da se ona nadje
+# unutar dela jedinicnog kruga koji se nalazi u oblasti [0,1]x[0,1] je odnos povrsina povrsine kruga i povrsine kvadrata!
+# To je takozvana geometrijska verovatnoca.
+
+# I evo nase cake: Geometrijska verovatnoca p = P(kruga)/P(kvadrata) = (1/2^2*Pi)/1^2 = 1/4 Pi odakle sledi da je
+# Pi = 4P(kruga) => zadatak se svodi na prethodni samo sto koristimo y=sqrt(1-x^2) sto je jednacina jedinicnog kruga
+
+        pi = function(N) {
+        x = runif(N,0,1)
+        y = runif(N,0,1)
+
+        povrsina = sum(y<sqrt(1-x^2))/N
+        return(povrsina*4)
+      }
+
+      pi(10000)
+
+# Zadatak 06
+# Dat je skup vrednosti karata {A, 2, 3, 4, 5, 6, 7, 8, 9, J, Q, K} i skup boja  {pik, tref, herc, karo}.
+# a) Generisati spil karata (Primer: Kralj herc ispisati kao "Kh")
+
+      # Prvo generisemo vrednosti karata, pa odvojeno boje
+
+      vrednosti = c(2:9, "A", "J", "Q", "K")
+      boje = c("p", "t", "h", "k")
+
+      # Kako dobijamo karte? Kako dobijamo skup svih mogucih kombinacija? Pa ovo smo vec radili.
+      # Koristimo funkciju outer.
+
+      spil = outer(vrednosti, boje, FUN="paste", sep="")
+      spil
+# b) Igru igraju dva igraca. Igrac koji pocinje igru izvuce jednu kartu iz spila  na slucajan nacin,
+#    isto uradi i drugi igrac. Cija karta ima vecu vrednost dobija. Ako izvuku kartu iste vrednosti,
+#    karte se vracaju u spil, mesaju se i izvlace prve dve ("A" vrijedi kao 1).
+#    Simulirati ovu igru. (Neka funkcija igra() vraca vrijednost 1 ako je pobedio prvi igrac, odnosno 2 u suprotnom. Ako se igra ne zavrsi u 100 partija, smatramo da je nereseno.
+
+      igra = function(){
+
+          # Ova linija nam napravi vektor sa vrednostima od 1 do 52 ali ne nuzno tim redosledom.
+          karte = sample(1:52)
+
+          i = 1;
+          while(i<100){
+              prvi = karte[1]
+              drugi = karte[2]
+
+            # Zasto mod13? Pa imamo 52 karte: 2-9, A, J, Q, K = 13 komada *4 boje
+              if(prvi%%13 > drugi%%13)
+                return(1)
+              else if(prvi%%13 < drugi%%13)
+                return(2)
+              else {
+                # Mesamo karte!
+                karte = sample(1:52)
+                i=i+1;
+              }
+          }
+
+        # Ako smo dosli do ovde znaci da je nereseno pa vrati 0.
+        return(0)
+      }
+# c) Proceniti na osnovu 10 000 simulacija verovatnocu da pobedi igrac koji zapocinje igru,
+#    kao i verovatnocu da se zavrsi nereseno.
+
+    simulacija.igre = replicate(10000, igra(), simplify="array")
+    table(simulacija.igre)
+    mean(simulacija.igre == 1)
+    mean(simulacija.igre == 0)
+
+# Zadatak 07
+# Neka je dat novcic kod kojeg sa verovatnocom p > 0.5 pada glava.
+# Smisliti fer zreb izmedju dva igraca koristeci taj novcic.
+
+   # Ideja je da definisemo koji ishodi pretstavljaju pobedu za igraca 1 odnosno 2.
+   # Npr neka se baca novcic dva puta i kazemo da je igrac 1 pobedio ako se dogodio ishod pismo-glava
+   # a igrac 2 ako se dogodio ishod glava-pismo. Na ovaj nacin verovatnoce pobede oba igraca su jednake.
+
+    # Funkciji prosledjujemo verovatnocu. S obzirom da je nefer, neka verovatnoca jednog ishoda bude p, a
+    # sledi da ce drugog biti 1-p.
+
+    # Funkciji sample prosledjujemo vektor sa vrednostima 0 ili 1 i iz tog vektora mi hocemo da izabremo 2 broja slucajnim nacinom
+    neferIgra = function(p) {
+      novcic = sample(c(0,1), 2, replace=TRUE, prob=c(p, 1-p))
+
+      # I evo kako pravimo fer. Indeksiranje vektora pocinje od [1] - UVEK!!!
+      if(novcic[1]==0 & novcic[2]==1) return(1)
+      else if(novcic[1]==1 & novcic[2]==0) return(2)
+      else return(0)
+    }
+
+    # Simulirajmo ovo sada. Sta smo rekli? Funkcije simuliramo sa REPLICATE!!
+    simulacija.nefer = replicate(10000, neferIgra(0.1))
+    mean(simulacija.nefer==1)
+    mean(simulacija.nefer==2)
+
+    # Sad ako zelite da uporedite mozete if, mozete da delite ova poziva mean() funkcije i da gledate da li je
+    # kolicnik veci ili manji od keca i da tako zakljucite koji je veci.
+
+# Zadatak 08
+# Tri kockice za igru se bacaju n puta odjednom. Oceniti verovatnocu da se bar jednom u zavisnosti
+# od n dogode sve tri sestice.
+
+    tri.Sestice = function(n) {
+      bacamo.PrviPut = sample(1:6, n, replace=TRUE)
+      bacamo.DrugiPut = sample(1:6, n, replace=TRUE)
+      bacamo.TreciPut = sample(1:6, n, replace=TRUE)
+
+      # E sad malo paznje. Zasto ovo dalje ifelse radi? Znaci, sample nam vrati vektor od n elemenata sa vrednostima
+      # od 1 do 6 izmesano. Mi hocemo da nam se u sva tri bacanja istovremeno potrefi bas 6.
+      # Dugacak zapis ove linije ispod bi bio if(bacamo.PrviPut[1]==6 && bacamo.DrugiPut[1]==6 && bacamo.TreciPut==6) onda vrati 1, u suprotnom 0.
+      # Ova sledeca linija radi to za nas zbog koriscenja & umesto &&. Kada koristimo & ona ce clan po clan uporedjivati,
+      # bas ono sto nama treba.
+
+      # rezultat bacamo.PrviPut==6 je vektor sa permutacijama TRUE FALSE u zavisnosti da li je na i-tom indeksu
+      # bas sestica ili nije. Ako je za prvi vektor na i-tom mestu 6 vrati true, za drugi true, treci true, to je
+      # konjukcija tri 1 to je to sto nam treba, vrati return(1) onda. U suprotnom return(0).
+
+      # indikator nam je sada vektor nula i jedinica. zelimo verovatnocu da su bile sestice tj mean(indikator) koji
+      # prolazi kroz indikator, sabira sve keceve i deli sa velicinom niza, sto je ovde n. To i jeste verovatnoca.
+
+      indikator = ifelse(bacamo.PrviPut == 6 & bacamo.DrugiPut == 6 & bacamo.TreciPut==6, 1,0)
+      return(mean(indikator))
+    }
+
+    tri.Sestice(10000)
+
+# Zadatak 09 - poslednji zadatak za ovaj cas jeej
+# Neka porodica pravi decu sve dok ne dobije zensko dete.
+# Odrediti prosecan broj dece u porodici ako se testira 100 000 porodica. Pretpostavka je da je P(musko dete) = P(zensko dete) = 1/2.
+
+    porodica = function() {
+      # Sta bese radi funkcija rep(1, n)? Vraca vektor od n jedinica: (1,1,1,1,1,...)
+      broj.dece = rep(1, 100000)
+      for(i in 1:100000) {
+        # Kada napisemo runif, podrazumevano uzima iz intervala [0,1]. Sto nama i treba. Zasto?
+        # Imamo da je verovatnoca 1/2 da bude zensko ili musko. Ideja je da proverimo da li je nas slucajan broj
+        # upao u interval u [0,1/2]. Ako jeste onda neka po dogovoru bude musko, a ako upadne u interval od [1/2, 1] onda je zensko!
+
+        # Ideja je sledeca. Dobijamo prvo dete. Ako se desi da smo odmah dobili zensko to je to, kraj. Ako ne
+        # ulazimo u while petlju kod koje je uslov dete<1/2 tj sve dok dete upada u interval [0,1/2] dogovorili smo se da je to musko
+        # ti pravi novo dete i uvelicaj brojac kod i-te porodice, i kad se desi da je zensko izacicemo iz petlje.
+
+        dete = runif(1);
+        while(dete < 1/2) {
+          dete = runif(1)
+          broj.dece[i] = broj.dece[i]+1
+        }
+      }
+
+      # mean prolazi kroz vektor broj.dece koji je npr (5,100, 2,20...) tj za prvu porodicu nam je trebalo 5 muskih do zenskog dete, za drugu 100...
+      # i dobijamo zeljeni broj dece u porodici STO SE I TRAZI A NE VEROVATNOCU!!
+      return(mean(broj.dece))
+    }
+  porodica()
+
+
+    # napomena JAKO BITNA: AKO SLUCAJNO ZA REZULTAT NEKOG ZADATKA DOBIJETE NEGATIVNU VREDNOST ILI
+    #                      VREDNOST VECU OD 1 - ODMAH ZNATE DA STE POGRESILI!!!
+    # JEDINE PRIHVATJLIVE VREDNOSTI SU IZ INTERVALA [0,1] !!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+

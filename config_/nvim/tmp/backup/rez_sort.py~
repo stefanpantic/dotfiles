@@ -1,0 +1,29 @@
+#!/bin/python
+
+import re
+
+# pattern to capture the data
+pat = re.compile(r"""
+    \s*<tr>\s*
+        \s*<td>\s*(?P<ime>[A-Za-z ]+)\s*</td>\s*
+        \s*<td>\s*(?P<b1>[0-9]+)\s*</td>\s*
+        \s*<td>\s*(?P<b2>[0-9]+)\s*</td>\s*
+    \s*</tr>\s*
+""" , re.VERBOSE)
+
+# construct an empty list
+students = list()
+
+# iterate through the file and place all matches in list
+with open('./rezultati_ispita.html', 'r') as f:
+    for match in pat.finditer(f.read()):
+        students.append((   match.group('ime').strip(),
+                            (int(match.group('b1').strip()) + int(match.group('b2').strip()))/2))
+
+# sort the list by the second item of the tuple ans reverse the order
+for entry in sorted(students, key=lambda x : x[1], reverse=True):
+    print("Ime: %-20s Bodovi: %-4g" % (entry[0], entry[1]))
+
+
+
+

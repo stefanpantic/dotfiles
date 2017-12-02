@@ -1,0 +1,169 @@
+[CMakeBuildDirChooser]
+LastExtraArguments=
+
+[External Scripts]
+firstUse=false
+
+[External Scripts][script 0]
+command=g++ -o %b %f && ./%b
+errorMode=0
+filterMode=0
+inputMode=0
+name=Quick Compile
+outputMode=0
+saveMode=0
+shortcuts=
+showOutput=true
+
+[External Scripts][script 1]
+command=xdg-open "https://www.google.com/search?q=%s"
+errorMode=0
+filterMode=0
+inputMode=0
+name=Google Selection
+outputMode=0
+saveMode=0
+shortcuts=
+showOutput=false
+
+[External Scripts][script 2]
+command=sort
+errorMode=0
+filterMode=0
+inputMode=2
+name=Sort Selection
+outputMode=3
+saveMode=0
+shortcuts=
+showOutput=false
+
+[KatePart Settings]
+documents=/home/whitestar/projects/test/src/test.cpp,/home/whitestar/projects/test/README.md,/home/whitestar/projects/test1/main.cpp,/home/whitestar/projects/py_test/py_test.py,/home/whitestar/projects/python_projects/test1/test1.py,/home/whitestar/projects/python_projects/test/test.py
+
+[KatePart Settings][/home/whitestar/projects/py_test/py_test.py]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=Python
+Highlighting Set By User=false
+Indentation Mode=python
+Mode=Python
+Mode Set By User=false
+URL=file:///home/whitestar/projects/py_test/py_test.py
+
+[KatePart Settings][/home/whitestar/projects/python_projects/test/test.py]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=Python
+Highlighting Set By User=false
+Indentation Mode=python
+Mode=Python
+Mode Set By User=false
+URL=file:///home/whitestar/projects/python_projects/test/test.py
+
+[KatePart Settings][/home/whitestar/projects/python_projects/test1/test1.py]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=Python
+Highlighting Set By User=false
+Indentation Mode=python
+Mode=Python
+Mode Set By User=false
+URL=file:///home/whitestar/projects/python_projects/test1/test1.py
+
+[KatePart Settings][/home/whitestar/projects/test/README.md]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=Markdown
+Highlighting Set By User=false
+Indentation Mode=normal
+Mode=Markdown
+Mode Set By User=false
+URL=file:///home/whitestar/projects/test/README.md
+
+[KatePart Settings][/home/whitestar/projects/test/src/test.cpp]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=C++
+Highlighting Set By User=false
+Indentation Mode=cstyle
+Mode=C++
+Mode Set By User=false
+URL=file:///home/whitestar/projects/test/src/test.cpp
+
+[KatePart Settings][/home/whitestar/projects/test1/main.cpp]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=C++
+Highlighting Set By User=false
+Indentation Mode=cstyle
+Mode=C++
+Mode Set By User=false
+URL=file:///home/whitestar/projects/test1/main.cpp
+
+[Main Window]
+Desktop 1920 1080=0,24,1920,1056
+
+[MainWindow]
+Height 1080=1056
+State=AAAA/wAAAAD9AAAAAgAAAAEAAAHSAAADpfwCAAAAAfsAAAAkAEQAbwBjAHUAbQBlAG4AdABhAHQAaQBvAG4AXwBjAG8AZABlAAAAAE4AAAOlAAAATAEAAAMAAAADAAAHgAAAAO78AQAAAAT7AAAAFABCAHUAaQBsAGQAXwBjAG8AZABlAQAAACgAAAcwAAAAAAAAAAD7AAAAGgBQAHIAbwBiAGwAZQBtAHMAXwBjAG8AZABlAAAAAAAAAAeAAAAArwEAAAP7AAAAIgBDAG8AZABlACAAQgByAG8AdwBzAGUAcgBfAGMAbwBkAGUAAAAAKAAABzAAAAB2AQAAA/sAAAAQAFIAdQBuAF8AYwBvAGQAZQEAAAAAAAAHgAAAAAAAAAAAAAAHMAAAA6UAAAAEAAAABAAAAAEAAAAC/AAAAAQAAAAAAAAAAQAAAB4ATABlAGYAdAAgAEIAdQB0AHQAbwBuACAAQgBhAHIDAAAAAP////8AAAAAAAAAAAAAAAEAAAABAAAAIABSAGkAZwBoAHQAIABCAHUAdAB0AG8AbgAgAEIAYQByAwAAAAD/////AAAAAAAAAAAAAAACAAAABAAAABYAbQBhAGkAbgBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAAAAAAYAGQAZQBiAHUAZwBUAG8AbwBsAEIAYQByAQAAA03/////AAAAAAAAAAAAAAAgAHEAdQBpAGMAawBPAHAAZQBuAFQAbwBvAGwAQgBhAHIBAAAFRP////8AAAAAAAAAAAAAACwASwBEAGUAdgBDAG8AZABlAGIAcgBvAHcAcwBlAHIAVABvAG8AbABCAGEAcgEAAAYs/////wAAAAAAAAAAAAAAAwAAAAEAAAAiAEIAbwB0AHQAbwBtACAAQgB1AHQAdABvAG4AIABCAGEAcgEAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+Width 1920=1920
+
+[MainWindow_code]
+(1) Tool Views Order=org.kdevelop.ProjectsView,org.kdevelop.FileManagerView,org.kdevelop.ClassBrowserView,org.kdevelop.DocumentsView
+(2) Tool Views Order=org.kdevelop.ExternalScriptView,org.kdevelop.DocumentationView
+(8) Tool Views Order=org.kdevelop.ContextBrowser,org.kdevelop.ProblemReporterView
+Height 1080=1056
+State=AAAA/wAAAAD9AAAAAgAAAAEAAAHSAAADpfwCAAAAAfsAAAAkAEQAbwBjAHUAbQBlAG4AdABhAHQAaQBvAG4AXwBjAG8AZABlAAAAAE4AAAOlAAAATAEAAAMAAAADAAAHgAAAAO78AQAAAAT7AAAAFABCAHUAaQBsAGQAXwBjAG8AZABlAQAAACgAAAcwAAAAAAAAAAD7AAAAGgBQAHIAbwBiAGwAZQBtAHMAXwBjAG8AZABlAAAAAAAAAAeAAAAArwEAAAP7AAAAIgBDAG8AZABlACAAQgByAG8AdwBzAGUAcgBfAGMAbwBkAGUAAAAAKAAABzAAAAB2AQAAA/sAAAAQAFIAdQBuAF8AYwBvAGQAZQEAAAAAAAAHgAAAAAAAAAAAAAAHMAAAA6UAAAAEAAAABAAAAAEAAAAC/AAAAAQAAAAAAAAAAQAAAB4ATABlAGYAdAAgAEIAdQB0AHQAbwBuACAAQgBhAHIDAAAAAP////8AAAAAAAAAAAAAAAEAAAABAAAAIABSAGkAZwBoAHQAIABCAHUAdAB0AG8AbgAgAEIAYQByAwAAAAD/////AAAAAAAAAAAAAAACAAAABAAAABYAbQBhAGkAbgBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAAAAAAYAGQAZQBiAHUAZwBUAG8AbwBsAEIAYQByAQAAA03/////AAAAAAAAAAAAAAAgAHEAdQBpAGMAawBPAHAAZQBuAFQAbwBvAGwAQgBhAHIBAAAFRP////8AAAAAAAAAAAAAACwASwBEAGUAdgBDAG8AZABlAGIAcgBvAHcAcwBlAHIAVABvAG8AbABCAGEAcgEAAAYs/////wAAAAAAAAAAAAAAAwAAAAEAAAAiAEIAbwB0AHQAbwBtACAAQgB1AHQAdABvAG4AIABCAGEAcgEAAAAA/////wAAAAAAAAAA
+Width 1920=1920
+debugToolBarVisibility=true
+
+[Open File]
+Last Open File Directory=file:///home/whitestar/projects/python_projects/test/
+
+[RecentProjects]
+File1[$e]=$HOME/projects/python_projects/test/test.kdev4
+Name1[$e]=test.kdev4
+
+[Sessions]
+Active Session ID={c495bc79-c4dd-43d3-868f-70e6bd111110}
+
+[UiSettings]
+ColorScheme=Breeze Dark
+ShowTextEditorStatusBar=false
+
+[UiSettings/Docks/ToolbarEnabled]
+Build_code=true
+Code Browser_code=true
+Problems_code=true
+Run_code=true
+
+[User Interface]
+Main Windows Count=1
+
+[User Interface][Main Window 0][Area code]
+desired views=org.kdevelop.ClassBrowserView:1,org.kdevelop.ContextBrowser:8,org.kdevelop.DocumentationView:2,org.kdevelop.DocumentsView:1,org.kdevelop.ExternalScriptView:2,org.kdevelop.FileManagerView:1,org.kdevelop.KonsoleView:8,org.kdevelop.OutputView:8,org.kdevelop.OutputView.0:8,org.kdevelop.ProblemReporterView:8,org.kdevelop.ProjectsView:1,org.kdevelop.SnippetView:2
+id=code
+view on bottom=
+view on left=
+view on right=
+view on top=
+working set=code_5639731
+
+[User Interface][Main Window 0][Area debug]
+desired views=org.kdevelop.DocumentationView:2,org.kdevelop.FileManagerView:1,org.kdevelop.KonsoleView:8,org.kdevelop.OutputView.0:8,org.kdevelop.debugger.BreakpointsView:8,org.kdevelop.debugger.ConsoleView:8,org.kdevelop.debugger.StackView:8,org.kdevelop.debugger.VariablesView:1
+id=debug
+view on bottom=
+view on left=
+view on right=
+view on top=
+working set=
+
+[User Interface][Main Window 0][Area review]
+desired views=org.kdevelop.DocumentationView:2,org.kdevelop.FileManagerView:1,org.kdevelop.OutputView.0:8,org.kdevelop.PatchReview:8,org.kdevelop.ProjectsView:1
+id=review
+view on bottom=
+view on left=
+view on right=
+view on top=
+working set=

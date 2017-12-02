@@ -1,0 +1,51 @@
+#pragma once
+
+#include "../include/vec3.hpp"
+
+namespace rg::util
+{
+
+	// %vec3 implementation:
+	// @@{
+	// Construction:
+	// @{
+	/*
+	* @brief Builds %vec3 with passed values
+	* 
+	* @param Numeric Numerical type to store in %vec3
+	*/
+	template <typename Numeric>
+	vec3<Numeric>::vec3(const Numeric &x, const Numeric &y, const Numeric &z)
+		:	std::tuple<Numeric, Numeric, Numeric>{x, y, z}
+	{}
+
+	/* Argument move constructor */
+	template <typename Numeric>
+	vec3<Numeric>::vec3(Numeric &&x, Numeric &&y, Numeric &&z)
+		:	std::tuple<Numeric, Numeric, Numeric>{x, y, z}
+	{}
+
+	/* Copy constructor */
+	template <typename Numeric>
+	vec3<Numeric>::vec3(const Numeric &other)
+		: std::tuple<Numeric, Numeric, Numeric>{other}
+	{}
+
+	/* Move constructor */
+	template <typename Numeric>
+	vec3<Numeric>::vec3(Numeric &&other)
+		: std::tuple<Numeric, Numeric, Numeric>{other}
+	{}
+
+	/* Access operator */
+	template <typename Numeric>
+	Numeric& vec3<Numeric>::operator[](std::size_t pos)
+	{}
+
+	template <typename Numeric>
+	const Numeric& vec3<Numeric>::operator[](std::size_t pos) const
+	{}
+	// @@}
+
+} /* namespace util */
+

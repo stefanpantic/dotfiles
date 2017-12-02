@@ -1,0 +1,15 @@
+#ifndef _CAMERA_GL_HPP_
+#define _CAMERA_GL_HPP_
+
+namespace view
+{
+
+	class camera
+	{
+		public:
+		private:
+	};
+
+}
+
+#endif /* _CAMERA_GL_HPP_ */

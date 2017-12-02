@@ -1,0 +1,268 @@
+#include <GL/glut.h>
+#include <iostream>
+#include <cmath>
+#include "../include/camera.hpp"
+#include "../include/rgenum.hpp"
+
+namespace rg::view
+{
+
+	// Camera implemetation:
+	// @@{
+	// Construction:
+	// @{
+	/*
+	* @brief Builds camera with passed eye point, to point, normal vector and look speed.
+	*/
+	camera::camera(	float eye_x, float eye_y, float eye_z,
+					float to_x, float to_y, float to_z,
+					float n_x, float n_y, float n_z)
+	:	eye_x_{std::move(eye_x)}, eye_y_{std::move(eye_y)}, eye_z_{std::move(eye_z)},
+		to_x_{std::move(to_x)}, to_y_{std::move(to_y)}, to_z_{std::move(to_z)},
+		n_x_{std::move(n_x)}, n_y_{std::move(n_y)}, n_z_{std::move(n_z)},
+		look_speed_{.005}, move_speed_{.1},
+		xz_move_{.0}, zy_move_{.0},
+		move_f_{.0}, move_s_{.0},
+		theta_{.0}, phi_{.0}
+	{
+		std::clog << "constructed camera" << std::endl;
+	}
+
+	/*
+	* @brief Builds camera from @other.
+	*/
+	camera::camera(const camera &other)
+	:	eye_x_{other.eye_x_}, eye_y_{other.eye_y_}, eye_z_{other.eye_z_},
+		to_x_{other.to_x_}, to_y_{other.to_y_}, to_z_{other.to_z_},
+		n_x_{other.n_x_}, n_y_{other.n_y_}, n_z_{other.n_z_},
+		look_speed_{other.look_speed_}, move_speed_{other.move_speed_},
+		xz_move_{.0}, zy_move_{.0},
+		move_f_{.0}, move_s_{.0},
+		theta_{.0}, phi_{.0}
+	{
+		std::clog << "copy constructed camera" << std::endl;
+	}
+	// @}
+
+	// Move viewpoint:
+	// @{
+	void camera::viewpoint_move(opt::RGView direction)
+	{
+		switch(direction)
+		{
+			case opt::RGView::UP:
+				zy_move_ = look_speed_;
+				break;
+			case opt::RGView::DOWN:
+				zy_move_ = -look_speed_;
+				break;
+			case opt::RGView::LEFT:
+				xz_move_ = -look_speed_;
+				break;
+			case opt::RGView::RIGHT:
+				xz_move_ = look_speed_;
+				break;
+			default:
+				// TODO : compile time option checker
+				break;
+		}
+	}
+	// @}
+
+	// Change position:
+	// @{
+	void camera::postition_move(opt::RGPosition direction)
+	{
+		switch(direction)
+		{
+			case opt::RGPosition::UP:
+				move_f_ = move_speed_;
+				break;
+			case opt::RGPosition::DOWN:
+				move_f_ = -move_speed_;
+				break;
+			case opt::RGPosition::LEFT:
+				move_s_ = -move_speed_;
+				break;
+			case opt::RGPosition::RIGHT:
+				move_s_ = move_speed_;
+				break;
+			default:
+				// TODO : compile time option checker
+				break;
+		}
+	}
+	// @}
+
+	// Stop viewpoint motion:
+	// @{
+	void camera::viewpoint_stop(opt::RGView axis)
+	{
+		switch(axis)
+		{
+			case opt::RGView::STOP_HORIZONTAL:
+				zy_move_ = 0;
+				break;
+			case opt::RGView::STOP_VERTICAL:
+				xz_move_ = 0;
+				break;
+			default:
+				// TODO : compile time option checker
+				break;
+		}
+	}
+	// @}
+
+	// Stop position motion:
+	// @{
+	void camera::position_stop(opt::RGPosition direction)
+	{
+		switch(direction)
+		{
+			case opt::RGPosition::STOP_FORWARD:
+				move_f_ = 0;
+				break;
+			case opt::RGPosition::STOP_SIDEWAYS:
+				move_s_ = 0;
+				break;
+			default:
+				// TODO : compile time option checker
+				break;
+		}
+	}
+	// @}
+
+	// Set view:
+	// @{
+	/*
+	* @brief Specify which matrix stack is the target for subsequent matrix operations.
+	*/
+	void camera::set_matrix_mode(opt::RGTransform mode)
+	{
+		switch(mode)
+		{
+			case opt::RGTransform::MODELVIEW:
+				glMatrixMode(GL_MODELVIEW);
+				break;
+			case opt::RGTransform::PROJECTION:
+				glMatrixMode(GL_PROJECTION);
+				break;
+			case opt::RGTransform::TEXTURE:
+				glMatrixMode(GL_TEXTURE);
+				break;
+			default:
+				// TODO : compile time option checker
+				break;
+		}
+	}
+
+	/*
+	* @brief Define a viewing transformation.
+	*/
+	void camera::set_look_at()
+	{
+		glLoadIdentity();
+		gluLookAt(	eye_x_, eye_y_, eye_z_,
+					eye_x_ + to_x_, eye_y_ + to_y_, eye_z_ + to_z_,
+					n_x_, n_y_, n_z_);
+	}
+
+	/*
+	* @brief Set perspective
+	*/
+	void camera::set_perspective(double fov, double aspect, double near, double far)
+	{
+		glLoadIdentity();
+		gluPerspective(fov, aspect, near, far);
+	}
+
+	// Set motion speed:
+	// @{
+	/*
+	* @brief Set viewpoint movement speed.
+	*/
+	void camera::set_look_speed(int look_speed)
+	{
+		look_speed_ = std::move(look_speed);
+	}
+
+	/*
+	* @brief Set position movement speed.
+	*/
+	void camera::set_move_speed(int move_speed)
+	{
+		move_speed_ = std::move(move_speed);
+	}
+	// @}
+
+	/*
+	* @brief Render the camera view based on position and look at point.
+	*/
+	void camera::redraw_view()
+	{
+		/* Update eye position only if we're in motion */
+		if (move_f_) {
+			_eyeF();
+		}
+
+		/* Update eye position only if we're in motion */
+		if (move_s_) {
+			_eyeS();
+		}
+
+		/* Update look at point if necessary */
+		if (xz_move_ || zy_move_) {
+			_to();
+		}
+	}
+	// @}
+
+	// Private methods:
+	// @{
+	/*
+	* @brief Calculate the (to_x_, to_y_, to_z_) vector when camera is moved.
+	*
+	* We're keeping track of the angles @theta and @phi, one for the XZ plane, the other for the ZY plane.
+	*/
+	void camera::_to()
+	{
+		/* Adjust the TO vector angles */
+		theta_ += xz_move_;
+		phi_ += zy_move_;
+
+		/* Restrict @phi_ */
+		if (phi_ >= 1.8) {
+			phi_ = 1.8;
+		} else if (phi_ <= -1.8) {
+			phi_ = -1.8;
+		}
+
+		/* Recalculate the TO point */
+		to_x_ = std::sin(theta_);
+		to_y_ = std::sin(phi_);
+		to_z_ = -std::cos(theta_);
+	}
+
+	/*
+	* Move the camera eye forward/backward based on the look at point.
+	*/
+	void camera::_eyeF()
+	{
+		/* Recalculate eye position on move forward/backward */
+		eye_x_ += move_f_ * to_x_ * move_speed_;
+		eye_z_ += move_f_ * to_z_ * move_speed_;
+	}
+
+	/*
+	* Move the camera eye based on look at point and up vector (0, 1, 0).
+	*/
+	void camera::_eyeS()
+	{
+		/* Recalculate eye position on move sideways */
+		eye_x_ += move_s_ * to_x_ * move_speed_;
+		eye_z_ += move_s_ * (-to_z_) * move_speed_;
+	}
+	// @}
+	// @@}
+
+} /* namespace rg */

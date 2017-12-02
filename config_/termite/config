@@ -1,0 +1,66 @@
+[options]
+font = Literation Mono Powerline 11
+scrollback_lines = 10000
+#search_wrap = true
+#icon_name = terminal
+#geometry = 640x480
+allow_bold = true
+
+# "system", "on" or "off"
+cursor_blink = on
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+#browser = xdg-open
+
+mouse_autohide = true
+
+# set size hints for the window
+size_hints = true
+
+# Hide links that are no longer valid in url select overlay mode
+filter_unmatched_urls = true
+# one dark
+[colors]
+
+# special
+foreground      = #cccccc
+foreground_bold = #abb2bf
+cursor          =
+background      = #101011
+
+# black
+color0  = #000000
+color8  = #373737
+
+# red
+color1  = #ef4b24
+color9  = #dc1d03
+
+# green
+color2  = #78ca69
+color10 = #51bc3b
+
+# yellow
+color3  = #f5da38
+color11 = #f2dc5c
+
+# blue
+color4  = #008bff
+color12 = #008bff
+
+# magenta
+color5  = #a081d3
+color13 = #be35ed
+
+# cyan
+color6  = #19aaed
+color14 = #4aa9e8
+
+# white
+color7  = #c6c6c6
+color15 = #c6c6c6
+
+vim: ft=dosini cms=#%s

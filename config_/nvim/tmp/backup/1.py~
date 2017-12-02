@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+
+import re, sys
+
+regex = re.compile(r'''
+			<td[^=]+="rank[^>]+>\s*(?P<rank> \d+)\s*</td>\s*
+			<td[^=]+="move[^>]+>\s*(?P<move> \+?\-?\d+)\s*</td>\s*
+			<td[^=]+="country[^>]+>\s*<[^=]+=[^=]+="(?P<country> [A-Z]{3})"[^>]+>\s*</td>\s*
+			<td[^=]+="player[^>]+>\s*(?P<player> [A-Z][a-z]+\s[A-Z][a-z]+)\s*</td>\s*
+			<td[^=]+="age[^>]+>\s*(?P<age> \d+)\s*</td>\s*
+			<td[^=]+="points[^>]+>\s*(?P<points> \d+)\s*</td>\s*
+	''', re.VERBOSE)
+
+users = []
+def make_user(g):
+	map= {}
+
+	map['rank'] = int(g('rank'))
+	map['move'] = int(g('move'))
+	map['country'] = g('country')
+	map['player'] = g('player')
+	map['age'] = int(g('age'))
+	map['points'] = int(g('points'))
+
+	return map
+
+if(len(sys.argv) < 2 and len(sys.argv) > 5):
+	sys.exit(1)
+
+try:
+	with open(sys.argv[1], 'r') as f:
+		data = f.read()
+except IOError:
+	sys.exit(1)
+
+for i in regex.finditer(data):
+	users.append(make_user(i.group))
+	#print(i.group('rank'))
+
+#doing lambda for sorting
+if(2 == len(sys.argv)):
+	print(users)
+elif(3 == len(sys.argv)):
+	if("-c" == sys.argv[2]):
+		for user in users:
+			if(user['move'] != 0):
+				print(user)
+	else:
+		sys.exit(1)
+elif(4 == len(sys.argv)):
+	if("-d" == sys.argv[2]):
+		for user in users:
+			if(user['country'] == sys.argv[3]):
+				print(user)
+	else:
+		sys.exit(1)
+elif(5 == len(sys.argv)):
+	if("-g" == sys.argv[2]):
+		for user in users:
+			if(user['age'] > int(sys.argv[3]) and user['age'] < int(sys.argv[4])):
+				print(user)
+	else:
+		sys.exit(1)
+

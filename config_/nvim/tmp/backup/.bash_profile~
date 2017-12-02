@@ -1,0 +1,8 @@
+#
+# ~/.bash_profile
+#
+
+export MANPAGER="nvim -c 'set ft=man' -"
+export QT_QPA_PLATFORMTHEME="qt5ct"
+
+#[[ -f ~/.bashrc ]] && . ~/.bashrc

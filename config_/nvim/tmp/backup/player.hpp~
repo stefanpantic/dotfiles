@@ -1,0 +1,65 @@
+#pragma once
+
+#include "camera.hpp"
+#include "rgenum.hpp"
+
+namespace rg::action
+{
+
+	// Player declaration:
+	// @{
+	/*
+	*	@brief Class used for controling the player.
+	*
+	* 	@inherit %view::camera.
+	* 	TODO : description
+	*/
+	class player : private view::camera
+	{
+		/* Public methods */
+		public:
+			/* Default constructor */
+			explicit player(	const float &eye_x = 0, const float &eye_y = 1, const float &eye_z = 5,	/* eye point */
+								const float &to_x = 0, const float &to_y = 1, const float &to_z = -1,	/* look at opoint */
+								const float &n_x = 0, const float &n_y = 1, const float &n_z = 0);		/* up vector */
+
+			/* Regular key action */
+			void regular_down(int key);
+			void regular_up(int key);
+
+			/* Special key action */
+			void special_down(int key);
+			void special_up(int key);
+
+			/* Mouse click */
+			void mouse_click(int button, int state, int x, int y);
+
+			/* Mouse move */
+			void mouse_active(int x, int y);
+			void mouse_passive(int x, int y);
+
+			/* Set buttons */
+			void set_button(opt::RGButton btn, int value);
+
+			/* Get buttons */
+			const int &get_button(opt::RGButton btn) const;
+
+		/* Private variables */
+		private:
+			/* Player movement controls */
+			int up_, down_, left_, right_;
+
+			/* Camera movement controls */
+			int up_, down_, left_, right_;
+
+			/* Jump button */
+			int jump_;
+
+			/* Ability button */
+			int ability_;
+
+			/* Exit button */
+			int EXIT_;
+	}; /* class player */
+
+} /* namespace rg::action */

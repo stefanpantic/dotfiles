@@ -1,0 +1,384 @@
+Pitanja su preuzeta iz skripte
+
+1. UVOD:
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+1.1 Cime se sve bavi racunarska grafika?
+
+	Racunarska grafika je nauka i umetnost vizuelnog komuniciranja kroz ekran racunara i uredjaje za interakciju.
+	Racunarska grafika je medjudisciplinarna oblast u kojoj vaznu ulogu igraju fizika (svetlost, simulacije), matematika (opis figura),
+	covekova moc opazanja (ne zelimo da renderujemo objekte koji se ne vide na sceni),
+	interakcija covek-racunat, umetnost, graficki dizajn.
+	Uza definicija racunarske grafike bi glasila da se racunarska grafika bavi pravljenjem modela objekata na sceni (geometriski opis)
+	i modela svetlosti koja se emituje, i na osnovu njih, pravljenjem  reprezentacija odredjenog pogleda na scenu.
+	Bavljenje grafikom, pored razumevanja koncepata podrazumeva i dobro poznavanje nekog od grafickih API-eva tipa Qt, GTK, OpenGL.
+
+
+1.2 Koje su osnovne poddiscipline racunarske grafike?
+
+	Osnovne poddiscipline racunarske grafike su:
+		1) modelovanje	->	bavi se pravljenjem matematicke spesifikacije tela i njegovih vizuelnih svojstava
+							na nacin koji je moguce sacuvati na racunaru,
+		2) renderovanje	->	to je proces kreiranja realisticne dvodimenzionalne slike na osnovu (2D ili 3D) modela
+							i (R ili C) ponasanja svetlosti,
+		3) animacija	->	to je proces kreiranja nizova slika koje, kada se prikazu brzo jedna za drugom, daju utisak glatkog kretanja.
+
+	Postoje i druge oblasti koje ukljucuju racunarsku grafiku kao sto su:
+		1) obrada slika,
+		2) virtuelna realnost,
+		3) 3D skeniranje,
+		4) racunarska fotografija - selfie game on point.
+		5) ...
+
+
+1.3 Koja je razlika izmedju renderovanja unapred i renderovanja unazad?
+
+	Dva oblika rendedovanja su renderovanje unapred i renderovanje unazad (ovo izbegavamo da ne bi bilo zensko):
+		1) renderovanje unapred	->	predstavlja proces renderovanja koji je najcesce podrzan u hardveru (i koji koristi OpenGL).
+									U ovoj vrsti renderovanja primitive se transformisu od modela ka uredjaju za prikaz.
+									Najpre se geometrijski modeli postavljaju na 3D scenu, zatim se ovi modeli posmatraju kroz kameru,
+									cime se njihove svetske koordinate transformisu u koordinate standardne zapremine pogleda.
+									Nakon toga se oni projektuju u 2D sliku i ova slika se transformise u prozor za prikaz.
+
+		2) renderovanje unazad	->	s druge strane, rejtrejsing algoritam predstavlja primer koncepta renderovanja unazad,
+									kod koga se krece od tacke na slici i onda se utvrdjuje koje se primitive projektuju u nju
+									(vise reci o ovom nacinu renderovanja bice u nastavku kursa).
+									Oba pristupa imaju svoje prednosti i mane.
+
+
+1.4 Sta se podrazumeva pod tim da je proces modelovanja hijerarhijski?
+
+	Prilikom modelovanja potrebno je da model 'uhvati' glavne karakteristike objekata/pojava koje se modeluju.
+	U modelovanju se objekat koji treba modelovati prvo analizira i onda se razlaze (dekomponuje) na jednostavnije komponente.
+	Vazni principi prilikom modelovanja su:
+		1) divide-and-conquer,
+		2) hijerarhija geometrijskih komponenti,
+		3) redukcija na primitive (sfere, kocke i sl.),
+		4) razlikujemo jednostavne komponente od onih koje to nisu.
+
+	'Dijagram stabla' obezbedjuje hijerarhijski, vizuelni metod za predstavljanje odnosa 'sastavljen od'.
+	Struktura podataka koji treba da se renderuju naziva se graf scene.
+	Primitive kreirane u procesu dekompozicije treba sastaviti da bi se kreirao finalni objekat.
+	Koriste se afine transformacije (Tr, Rot, Skal).
+
+
+1.5 Koje dve paradigme razlikujemo u racunarskoj grafici? Koje su njihove osnovne prednosti, a sta su njihovi nedostaci?
+
+	Postoje dve paradigme koje koriste graficke aplikacije:
+		1) grafika zasnovana na uzorku		->	koristi diskretne uzorke za opisivanje vizuelne informacije.
+												Pikseli se mogu kreirati digitalizacijom slike.
+												Pikseli su uglavnom lokacije tacaka sa pridruzenim vrednostima uzorka
+												(intenzite, svetlost i sl.). Slika definisana kao niz piksela omogucava jendostavne:
+													a) izmene	->	od strane korisnika, sencenje, razni alati u stilu Photoshop-a,
+													b) obrade	->	algoritamske operacije bez ucesca korisnika (zamucivanje, ostrenje i sl.).
+												Prednosti su da kada se slika definise u terminima boje na (x, y) poziciji,
+												lako moze menjati izmenom lokacija ili vrednosti boja,
+												kao i da se informacije o pikselima jedne slike mogu preneti na drugu
+												(npr. u Photoshopu se izmene jedne slike lako mogu kopirati na drugu).
+												Mane su WYSIWYG (What You See Is What You Get) pristup.
+
+		2) grafika zasnovana na geometriji	->	naziva se i 'skalabilna vektorska grafika' ili 'objektno-orijentisana grafika'.
+												U ovoj paradigmi kreiraju
+												se i cuvaju matematicki modeli ili modeli geometrijskih elemenata i pridruzenih atributa,
+												i onda se oni uzrokuju
+												za vizuelizaciju (vrsi se rasterizacija).
+												Ne moze da se radi sa pojedinacnim pikselima.
+												Dobra strana je sto se uvecavanjem slike ne gubi na kvalitetu.
+
+
+1.6 Sta oznacava pojam interaktivne racunarske grafike?
+
+	Interaktivna racunarska grafika podrazumeva dinamicki nacin prikaza slike na racunaru uz aktivno ucesce coveka u stvaranju i izmeni slike
+	gde su rezultati odmah vidljivi (npr. igrice). Nasuprot tome, neinteraktivna grafika je analogna tome.
+	Osnovne komponente interaktivne grafike su:
+		1) ulaz,
+		2) obraza,
+		3) izlaz.
+
+
+1.7 Koja je razlika izmedju adresivosti i rezolusije uredjaja za prikaz?
+
+	Adresivost (engl. adressability) je broj pojedinacnih tacaka po incu koje mogu biti kreirane.
+	Moze da se razlikuje horizontalna i vertikalna adresivost.
+
+	Rezolucija je broj razlucivih od strane posmatraca ili uredjaja razlicitih linija po incu koje uredjaj moze da kreira.
+	Ne moze biti veca od adresivosti.
+
+
+1.8 Kako se generise slika kod vektorskih sistema?
+
+	Kod vektorskih sistema, linija se generise tako sto se digitalne koordinate krajnjih tacaka transformisu
+	u analogni napon za elektricni zrak koji pada na povrsinu ekrana.
+	Metodologija se zove i 'random scan' zato sto se mogu spojiti bilo koje dve tacke na ekranu. Refresh rate je 30-60Hz.
+
+
+1.9 Kakav izgled imaju kose linije u vektorskim, a kakav u rasterskim sistemima?
+
+	Linije kod vektorskih sistema su glatke. Oni su pogodni za prikazivanje mreznih modela, dok se obojene povrsine tesko prikazuju.
+	Kose linije kod rasterskih sistema su 'stepenaste', dok se popunjene povrsine lako prikazuju.
+
+
+1.10 Cemu sluzi frejm bafer? Cemu sluzi video kontroler?
+
+	U rasterskim sistemima slika se formira u tzv. frejm baferu (engl. frame buffer) procesom rasterizacije.
+	Na frejm bafer se moze gledati kao na
+	dvodimenzionalni niz tako da svaka adresibilna lokacija (x, y) odgovara jednom pikselu.
+	U njemu se cuva sadrzaj koji se potom prikazuje na ekranu.
+	Bitska dubina (engl. bit depth) je broj bitova koji odgovara svakom pikselu.
+
+	Video kontroler pristupa frejm baferu i prikazuje liniju po liniju na ekranu. On je zaduzen da stalno osvezava sadrzaj ekrana.
+	Postoje dva tipa:
+		1) sa preplitanjem (engl. interlaced)		->	osvezavaju se parne, a zatim neparne linije npr. na 30Hz,
+		2) bez preplitanja (engl. noninterlaced)	->	koristi se ako cela slika moze da se osvezava na vise od 60Hz.
+
+
+9.11 Navesti bar cetiri oblasti u kojima se koristi racunarska grafika.
+
+	Primeri koriscenja grafike su brojni:
+		1) GUI						->	point-and-click, graficka okruzenja (fuj, term-life ftw),
+		2) virtuelna realnost (VR)	->	Okulus Rift, HTC Vive, Google Cardboard,
+		3) 3D stampa				-> tehnologija proizvodnje objekata na osnovu prototipova,
+		4) razne simulacije			-> naucne, simulatori leta i sl.
+
+
+
+2. 2D ALGORITMI:
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+2.1 Sta je rasterizacija?
+
+	U rasterskim sistemima ekran matricom lokacija koje nazivamo pikseli (pixel = picture element).
+	Pikseli su predstavljeni ili kao krugovi sa sredistima kojima su cvorovi celobrojne mreze ili kao kvadrati odredjeni celobrojnom mrezom.
+	Podaci o boji se cuvaju u frejm baferu.
+	Rastersku sliku je moguce skalirati. Medjutim smanjenjem u odnosu na izvornu dimenziju gube se informacije o slici.
+	Problem sa kojim se suocavamo je crtanje osnovnih geometrijskih figura - duzi i kruga na rasterskim sistemima.
+	Proces transformacije osnovnih objekata niskog nivoa u njihovu odgovarajucu reprezentaciju pikselima naziva se sken-konverzija
+	(engl. scan-conversion) ili rasterizacija.
+
+
+2.2 Koji su zahtevi kod crtanja linije?
+
+	Zadatak:
+		postaviti boje piksela tako da aproksimiraju sliku prave od tacke (x0, y0), do tacke (x1, y1).
+	Zahtevi:
+		1) 	niz piksela treba da bude sto blizi idealnoj liniji i treba da prolazi kroz krajnje tacke,
+		2)	slika duzi treba da bude nezavisna od redosleda kojim su date njene krajnje tacke,
+		3) 	crtanje treba da bude sto je moguce brze,
+		4) 	sve linije treba da budu iste osvetljenosti i sve tacke treba da budu iste osvetljenosti (ili da barem tako izgledaju)
+			bez obzira na nagib i duzinu,
+		5)	dodatni kriterijumi (antialiasing, line-width, stiple).
+
+
+2.3 Ako je koeficijent pravca prave:
+	a) m = 1/2,
+	b) m = 3,
+	da li crtamo po jedan piksel u svakom redu ili koloni?
+
+	a) u svakoj koloni treba da bude oznacen jedan piksel (vazi za opseg m < |1|),
+	b) u svakoj vrsti treba da bude oznacen jedan piksel (vazi za m van navedenog opsega).
+
+
+2.4 Kako ocenjujemo kvalitet dobijene rasterske slike?
+
+	Moguce je razmatrati razne kriterijume ocene kvaliteta dobijene rasterizovane duzi.
+	Mi biramo piksele cija su rastojanja od idealne duzi najmanja.
+
+
+2.5 Kako radi algoritam grube sile za crtanje duzi?
+
+	Najjednostavnija strategija za crtanje duzi odredjene tackama (x0, y0) i (x1, y1) sastoji se od narednih koraka:
+		1) izracunava se koeficijent pravca m = (y1 - y0)/(x1 - x0),
+		2) x se povecava za 1 pocev od x = x0,
+		3) za svako xi racuna se vrednost yi = m*(xi -x0) + y0,
+		4) osvetljava se piksel sa koordinatama (xi, round(yi)), pri cemu je round(yi) = ceil(yi + 0.5),
+
+	Algoritam je neefikasan zbog broja koraka i realne aritmetike.
+
+	Kod:
+		def line_brute_force(x0, y0, x1, y1):
+			dx = x1 - x0
+			dy = y1 - y0
+			m = dy/dx
+			for x in range(x0, x1):
+				y = m * (x - x0) + y0
+				set_pixel(x, round(y))
+
+
+2.6 Koja je ideja inkrementalnih algoritama?
+
+	Veza navedena u pitanju 2.5 moze se izraziti na sledeci nacin:
+		yi+1 = yi + m*dx
+
+	Kod:
+		def line_increment_basic(x0, y0, x1, y1):
+			dx = x1 - x0
+			dy = y1 - y0
+			m = dy/dx
+			y = y0
+			for x in range(x0, x1):
+				setpixel(x, round(y))
+				y += m
+
+	Osnovna ideja inkrementalnih algoritama jeste da u svakom koraku izracunavanja pravimo na osnovu prethodnog koraka.
+
+
+2.7 Kako finkcionise midpoint algoritam za crtanje duzi?
+
+	Kljucni nedostaci inkrementalnog algoritma su floating point aritmetika i potreba za zaokruzivanjem.
+	Takodje vertikalne prave se moraju posebno razmatrati.
+	Pitteway i Van Aken razvili su midpoint algoritam koji se za duzi i celobrojne krugove ponasa isto kao Bresenhamov algoritam,
+	ali se moze uopstiti na krive drugog reda.
+	Pretpostavljamo da je nagib izmedju 0 i 1 (analogno je za vrednosti van ovog opsega). Treba spojiti tacke A(x0, y0) i B(x1, y1).
+	Pretpostavimo da smo oznacili piksel P(xp, yp) i treba da izaberemo izmedju piksela jednu poziciju desno (oznaka E -> East)
+	i jednu poziciju gore desno (oznaka NE -> NorthEast).
+	Posmatramo odnos tacke M (midpoint) koja je srediste duzi ENE sa pravom kojom rasterizujemo. Ako je M ispod prave koja sadrzi duz,
+	onda je pravoj bliza NE, u suprotnom E.
+
+	Kod:
+		def line_midpoint(x0, y0, x1, y1):
+			dx = x1 - x0
+			dy = y1 - y0
+			y = y0
+			f = 2*dy - dx
+			for x in range(x0, x1):
+				setpixel(x, y)
+				if f <= 0:
+					f += 2 * dy
+				else:
+					y += 1
+					f += 2*(dy - dx)
+
+
+2.8 Ukoliko je 1 < m < inf, izmedju kojih tacaka vrsimo odabir?
+
+	NE (northeast) i N (north).
+
+2.9 Cemu nam u midpoint algoritmu sluzi tacka M izmedju tacaka N i NE?
+
+	Tacka M nam sluzi za odabir naredne tacke prilikom iscrtavanja prave.
+
+
+2.10 Sta je promenljiva odlucivanja?
+
+	Prilikom izbora narednog piksela u midpoint algoritmu, proveravamo da li se tacka M nalazi 'ispod' ili 'iznad' duzi koja spaja tacke A i B.
+	Jednacinu prave izrazimo u implicitnom obliku:
+
+		F(x, y) = a*x + b*y + c.
+
+	Ako je dx = x1 - x0, dy = x1 - y0 pravu mozemo zapisati i u obliku
+	y = (dy/dx)*x + B, gde je B = y0 - m*x0, i dobijamo narednu implicitnu jednacinu prave:
+
+		F(x, y) = dy*x - dx*y + B*dx = 0
+
+	F(x, y) = 0 za tacke na pravoj, pozitivna za tacke 'ispod', a negativna za tacke 'iznad'. S obzirom da odluku donosimo na osnovu znaka
+	d = F(xp + 1, yp + 0.5), d se naziva promenljiva odlucivanja:
+		1) d < 0 -> E,
+		2) d > 0 -> NE,
+		3) d = 0 -> E (po dogovoru).
+
+
+2.11 Izracunaj prvu vrednost promenljive odlucivanja za duz koja povezuje tacke sa koordinatam (1,2) i (7,4).
+
+	(x0, y0) = (1, 2)
+	(x1, y1) = (7, 4)
+	F = 2*dy - dx = 2 * (4 - 2) - (7 - 1) = 4 - 6 = -2 < 0
+
+
+2.12 Koja je sustunska razlika u vrednosti promenljive odlucivanja kod crtanja kruga u odnosu na crtanje duzi?
+
+
+
+2.13 Sta se menja ukoliko krug nije u koordinatnom pocetku?
+
+
+
+2.14 Koja je vremenska slozenost midpoint algoritma za crtanje:
+	a) duzi,
+	b) kruga?
+
+	a) O(|dx|)
+	b) O(|x - y|)
+
+
+2.15 Kada za region kazemo da je 4-povezan a kad da je 8-povezan?
+
+	Kazemo da je region 4-povezan ako se svaka dva piksela mogu povezati nizom piksela koriscenjem samo poteza:
+		1) nagore,
+		2) nadole,
+		3) levo,
+		4) desno.
+
+	Kazemo da je region 8-povezan ako se svaka sva piksela mogu povezati nizom piksela koristeci poteze
+		1) nagore,
+		2) nadole,
+		3) levo,
+		4) desno,
+		5) gore-levo,
+		6) gore-desno,
+		7) dole-levo,
+		8) dole-desno.
+
+
+2.16 Koji algoritam zovemo FloodFill, a koji BoundaryFill?
+
+	Region se moze definisati na dva razlicita nacina, za svaki koristimo pocetni piksel P:
+		1) region definisan unutrasnjoscu	->	najveci povezan region cija je boja ista kao boja piksela P,
+		2) region definisan granicom		->	najveci povezan region piksela cija boja nije jednaka nekoj granicnoj vrednosti.
+
+	Algoritmi kojima se popunjava region definisan unutrasnjoscu naziva se FloodFill,
+	a algoritmi koji popunjavaju region definisan granicom nazivaju se BoundaryFill.
+
+
+2.17 Kod scan popunjavanja poligona koje se presecne tacke scan linije sa stranicama poligona boje a koje ne?
+
+	Scan-linije - horizontalne linije na rasterskim sistemima.
+	Gornje horizontalne ivice poligona se ne boje.
+
+
+2.18 Koje se tacke boje kod horizontalnih stranica poligona?
+
+
+
+2.19 Sta je sliver?
+
+	Sliver je uska poligonijalna oblast koja sadrzi po jedan ili nijedan piksel za neke scan linije
+	(zbog pravila da se boje samo pikseli koje se nalaze u unutrasnjosti ili na levim i donjim ivicama).
+
+
+2.20 Kako se racuna presek (i + 1)-ve scan linije na osnovu i-te scan linije?
+
+
+
+
+2.21 Koja je vremenska slozenost algoritma LeftEdgeScan?
+
+
+
+2.22 Kod Cohen-Sutherlandovog algoritma sta vazi za duz koja je secka ako je K1 = 0 i K2 = 0? Sta vazi ako je K1 & K2 <> 0?
+
+
+
+2.23 Koja je vremenska slozenost Cohen-Sutherlandovog algoritma?
+
+
+
+2.24 Koji uslov vazi za presecnu tacku duzi P0P1 i normalu stranice?
+
+
+
+2.25 Koji uslov vazi da bi tacka bila okarakterisana kao potencijalno ulazna/izlazna?
+
+
+
+2.26 Sta znaci kada je tL < tE?
+
+
+
+2.27 Koja je vremenska slozenost Cyrus-Beckovog algoritma?
+
+
+
+2.28 Na kakav se region moze primeniti Liang-Barsky varijanta algoritma za kliping?
+
+
+

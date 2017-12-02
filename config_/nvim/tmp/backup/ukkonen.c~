@@ -1,0 +1,343 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_TEXT 101
+#define MAX_PATTERN 101
+
+#define MAX_CHARACTERS 255
+
+typedef struct {
+        int start;
+        int *end;
+        int label;
+        void* ending_node; 
+} Edge;
+
+typedef struct _stree_node {
+    struct _stree_node* suffix_link;
+    struct _stree_node* parent;
+    Edge *children[MAX_CHARACTERS];
+} Stree_node;
+
+typedef struct {
+    char *s;
+    Stree_node *root;
+} Suffix_tree;
+
+
+void label_leaves(Stree_node *root, int label, int m);
+void print_positions(Edge *e, int n);
+
+Suffix_tree ukkonen(char *s);
+
+void suffix_tree_search(char *s, char *p);
+
+
+int main()
+{
+    char s[MAX_TEXT];
+    char p[MAX_TEXT];
+    
+    printf("Tekst (terminirati unikatnim znakom, primer abcabc$): ");
+    fgets(s, MAX_TEXT, stdin);
+    
+    printf("Uzorak: ");
+    scanf("%s", p);
+    
+    suffix_tree_search(s, p);
+    
+    return 0;
+}
+
+void error(const char* message)
+{
+    fprintf(stderr, "%s", message);
+    exit(EXIT_FAILURE);
+}
+
+// Pomocne funkcije za pravljenje stabla
+
+
+Stree_node* new_Stree_node()
+{
+    Stree_node* new_node = (Stree_node*)malloc(sizeof(Stree_node));
+    if(new_node == NULL)
+        error("Allocation error");
+    
+    new_node->suffix_link = NULL;
+    new_node->parent = NULL;
+    
+    int i;
+    for(i = 0; i < MAX_CHARACTERS; i++)
+    {
+        new_node->children[i] = NULL;
+    }
+    
+    return new_node;
+}
+
+
+Edge* new_edge(int start, int *end, int label)
+{
+    Edge* new_e = (Edge*)malloc(sizeof(Edge));
+    if(new_e == NULL)
+        error("Allocation error");
+    
+    new_e->start = start;
+    new_e->end = end;
+    new_e->ending_node = NULL;
+    new_e->label = label;
+
+    
+    return new_e;
+}
+
+Edge* copy_edge(Edge *original)
+{
+    Edge* copy_e = new_edge(original->start, original->end, original->label);
+    copy_e->ending_node = original->ending_node;
+    
+    return copy_e;
+}
+
+void label_leaves(Stree_node *root, int label, int m) // DFS obilazak i ispisivanje labela na krajevima "list grana"
+{
+    if(root == NULL)
+        return;
+    
+    int i;
+    for(i = 0; i < MAX_CHARACTERS; i++)
+    {
+        if(root->children[i] != NULL)
+        {
+            int end = label + *(root->children[i]->end) - root->children[i]->start + 1;
+            if(root->children[i]->ending_node == NULL)
+                root->children[i]->label = m - end;
+            else
+                label_leaves(root->children[i]->ending_node, end, m);
+                
+        }
+    }
+}
+
+//-----------------
+
+
+Suffix_tree ukkonen(char *s)
+{
+    Stree_node *root = new_Stree_node();
+    
+    Stree_node *active_node = root;
+    
+    int active_length = 0;
+    int active_edge = -1;
+    
+    int e = -1;
+    
+    Stree_node *previous_inner = NULL;
+    
+    int j = 0;
+    int i;
+    int m = strlen(s);
+    
+    int current_character_index;
+    
+    int edge_end;
+    int edge_start;
+    int diff;
+    
+    for(i = 0; i < m; i++)
+    {
+        j++;
+        e++;
+        previous_inner = NULL;
+      
+        current_character_index = s[i];
+        
+        while(j > 0)
+        {
+            
+            
+            if(active_length == 0)
+            {
+                if(active_node->children[current_character_index] == NULL) // Prosirenje prvim pravilom
+                {
+                    active_node->children[current_character_index] = new_edge(i, &e, i);
+                    j--;
+                    continue;
+                }
+                else // Prosirenje trecim pravilom
+                {
+                    active_edge = current_character_index;
+                    active_length++;
+                    break;
+                }
+            }
+            
+            edge_end = *(active_node->children[active_edge]->end);
+            edge_start = active_node->children[active_edge]->start;
+            diff = edge_end - edge_start + 1;
+            
+                int pomeraj = active_length;
+
+                    while(active_length > diff)
+                    {
+                        
+                        active_length = active_length - diff;                    
+                        
+                        active_node = active_node->children[active_edge]->ending_node;
+                        char next_character = s[i - active_length];
+            
+                        
+                        
+                        active_edge = next_character;
+                        
+                
+                        edge_end = *(active_node->children[active_edge]->end);
+                        edge_start = active_node->children[active_edge]->start;
+                        diff = edge_end - edge_start + 1;
+                    }
+            
+            char next_on_edge = s[active_node->children[active_edge]->start + active_length];
+            
+            if(next_on_edge == s[i]) // Prosirenje trecim pravilom
+            {
+                active_length++;
+                break;
+            }
+            else // Prosirenje drugim pravilom
+            {
+                int next_index;
+                
+                next_index = next_on_edge;
+                
+                Stree_node *new;
+                
+                if(active_length != edge_end - edge_start + 1)
+                {             
+                    new = new_Stree_node();
+                    
+                    new->children[next_index] = copy_edge(active_node->children[active_edge]);
+                    new->children[next_index]->start = active_node->children[active_edge]->start + active_length;
+                    
+                    int *new_end = (int*)malloc(sizeof(int));
+                    if(new_end == NULL)
+                        error("Allocation error");
+                    
+                    *new_end = active_node->children[active_edge]->start + active_length - 1;
+                    
+                    active_node->children[active_edge]->end = new_end;
+                    active_node->children[active_edge]->ending_node = new;
+                    
+                    
+                    new->children[current_character_index] = new_edge(i, &e, i);
+                }
+                else
+                {
+                    new = active_node->children[active_edge]->ending_node;
+                    
+                    new->children[current_character_index] = new_edge(i, &e, i);
+                }
+                
+                
+                if(previous_inner != NULL)
+					previous_inner->suffix_link = new;
+                
+				new->suffix_link = root;
+                previous_inner = new;
+                
+                j--;
+                active_length = pomeraj - 1;
+                active_edge = s[i - active_length];
+                
+                
+                if(active_node != root)
+                {
+                    active_node = active_node->suffix_link;
+                }
+            }
+        }
+    }
+    
+    label_leaves(root, 0, m);
+    
+    Suffix_tree st;
+    st.root = root;
+    st.s = malloc(m * sizeof(char));
+    strcpy(st.s, s); // Kopija teksta, kako bi se struktura stabla nezavisno koristila
+    
+    return st;
+}
+
+
+void print_positions(Edge *e, int n) // Pronalazenje listova ispod poslednje pozicije nakon pretrage
+{
+    
+        if(e->ending_node == NULL)
+            printf("%d ", e->label);
+    
+        Stree_node *node = e->ending_node;
+        
+        if(node == NULL)
+            return;
+    
+        int i;
+        
+        for(i = 0; i < MAX_CHARACTERS; i++)
+            if(node->children[i] != NULL)
+                print_positions(node->children[i], n);
+}
+
+void suffix_tree_search(char *s, char *p)  // Pretraga uzorka u stablu
+{
+    Suffix_tree T = ukkonen(s);
+    
+    int j = 0;
+    Edge *current_edge;
+    int current_index = 0;
+    
+        if(T.root == NULL)
+            return;
+    
+        current_edge = T.root->children[p[j]];
+        
+        current_index = 0;
+        
+    while(p[j] && current_edge != NULL) // Prolazak po granama dok se karakteri sa grana poklapaju redom sa karakterima uzorka
+    {
+        if(p[j] != s[current_edge->start + current_index])
+        {
+            printf("Uzorak nije pronadjen\n");
+            return;
+        }
+
+        current_index++;
+        j++;
+        
+        if(p[j] == '\0')
+            break;
+        
+        if(current_edge->start + current_index > *(current_edge->end))
+        {
+            if(current_edge->ending_node != NULL)
+                current_edge = ((Stree_node*)(current_edge->ending_node))->children[p[j]];
+            else
+                break;
+            
+            current_index = 0;
+        }
+        
+    }
+    
+    if(p[j] == '\0')
+    {
+        printf("Uzorak pronadjen na pozicijama: ");
+        print_positions(current_edge, strlen(s));
+        printf("\n");
+    }
+    else
+        printf("Uzorak nije pronadjen\n");
+
+    return;
+}

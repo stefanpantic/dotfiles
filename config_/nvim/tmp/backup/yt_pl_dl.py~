@@ -1,0 +1,54 @@
+#!/usr/bin/python
+
+import sys
+import re
+import os
+import urllib.request as req
+from bs4 import BeautifulSoup as Supa
+
+if 2 != len(sys.argv):
+    exit(1)
+
+url = sys.argv[1].strip()
+yt_url = "https://www.youtube.com"
+yt_dl = "http://www.yt2mp3.cc/"
+yt_dl_grab = "http://www.yt2mp3.cc/grab?vidID="
+yt_dl_format = "&format=mp3"
+
+page = req.urlopen(url)
+page_text = page.read()
+page.close()
+yt_soup = Supa(page_text, "html5lib")
+
+yt_href_pat = re.compile('href="(?:.*?)=([^&]+)(?:[^>]+)>([^<]+)')
+yt2mp3_href_pat = re.compile('href="([^"]+)')
+song_list = list()
+
+pl_title = yt_soup.find('title').contents[0]
+os.mkdir(pl_title, 0o755)
+os.chdir(pl_title)
+
+for link in yt_soup.find_all('a', class_='pl-video-title-link yt-uix-tile-link yt-uix-sessionlink spf-link '):
+
+    href_mtc = yt_href_pat.search(str(link));
+
+    if None != href_mtc:
+        song_list.append((href_mtc.group(1), href_mtc.group(2).strip()))
+
+for song in song_list:
+
+    print("\x1b[32mDownloading\x1b[0m %s" % song[1])
+    yt2mp3_soup = Supa(req.urlopen(yt_dl_grab + song[0] + yt_dl_format).read(), "html5lib")
+    dl_url = yt2mp3_soup.find('a', class_='download-mp3-url btn audio q320')
+    dl_mat = yt2mp3_href_pat.search(str(dl_url))
+
+    if None != dl_mat:
+        current_song = req.urlopen(yt_dl + dl_mat.group(1))
+        byte_data = current_song.read()
+        current_song.close()
+        song_file = open(song[1] + ".mp3", "wb+")
+        song_file.write(byte_data)
+        song_file.close()
+        print("\x1b[34mDone...\x1b[0m")
+    else:
+        print("\x1b[31mFailed...\x1b[0m")

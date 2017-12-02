@@ -1,0 +1,162 @@
+" File: vanilla .vimrc
+" Author: Stefan Pantic <stefanpantic13@gmail.com>
+" Source: https://github.com/stefanpantic/dotfiles/vim
+"
+" Section marker:
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<name>                                                       <flags>|
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" Subsection marker:
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<name>                                                      |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<general settings>               <making terminal vim behave sanely>|
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<basic settings>                                            |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+let mapleader=","
+syntax on
+set splitbelow
+set splitright
+set tabstop=4
+set shiftwidth=4
+set history=200
+set linebreak
+set autoindent
+set smartindent
+set cursorline
+set scrolloff=10
+set omnifunc=syntaxcomplete#Complete
+set backspace=indent,eol,start
+set completeopt-=preview
+set shell=/bin/bash
+set autochdir
+set number relativenumber
+"set nohlsearch
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<normal timeout>                                            |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+"set timeoutlen=500
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<wildmenu completion>                                       |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set wildmenu " I'm a real wild one, wild one...
+set wildignore+=.hg,.git,.svn "ignore version control
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "ignore binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "ignore compiled object files
+set wildignore+=*.sw? "ignore Vim swap files
+set wildignore+=*.DS_Store "ignore MacOS bullshit
+set wildignore+=*.dSYM/ "ignore debug info
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<return to same line on reopen>                             |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<swap, backup, undo>                                        |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+set undofile
+set backup
+set noswapfile " it's 2017
+set undodir=~/.config/nvim/tmp/undo//     " undo files
+set backupdir=~/.config/nvim/tmp/backup// " backups
+set directory=~/.config/nvim/tmp/swap//   " swap files
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<tab settings>                                              |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <leader>e <Esc>:tabnew<space>
+nnoremap <silent><leader>= <Esc>:tabnext<CR>
+nnoremap <silent><leader>- <Esc>:tabprevious<CR>
+nnoremap <silent><leader>1 <Esc>:tabnext 1<CR>
+nnoremap <silent><leader>2 <Esc>:tabnext 2<CR>
+nnoremap <silent><leader>3 <Esc>:tabnext 3<CR>
+nnoremap <silent><leader>4 <Esc>:tabnext 4<CR>
+nnoremap <silent><leader>5 <Esc>:tabnext 5<CR>
+nnoremap <silent><leader>6 <Esc>:tabnext 6<CR>
+nnoremap <silent><leader>7 <Esc>:tabnext 7<CR>
+nnoremap <silent><leader>8 <Esc>:tabnext 8<CR>
+nnoremap <silent><leader>9 <Esc>:tabnext 9<CR>
+nnoremap <silent><leader>gg <Esc>:tabnext<space>
+nnoremap <silent><leader>one <Esc>:tabonly<CR>
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<quicksaving>                                               |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+"nnoremap <leader>xx <Esc>:xa<CR>
+"nnoremap <leader>w <Esc>:w<CR>
+"nnoremap <leader>q <Esc>:q<CR>
+"nnoremap <leader>x <Esc>:x<CR>
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Wq wq
+cnoreabbrev WQ wq
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <change line numbering>                                      |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <silent><leader>rn <Esc>:set rnu<CR>
+nnoremap <silent><leader>nrn <Esc>:set nornu<CR>
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <change line numbering on mode change>                       |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <no highlight search>                                         |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <silent><leader>hh <Esc>:noh<CR>
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<normal movement in wrapped lines, it's 2017 Vim ffs>       |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" |<make moving to begin/end usable>                           |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap H ^
+nnoremap L $
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" <clean trailing whitespace>                                  |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+nnoremap <silent><leader>ss <Esc>mz:%s/\s\+$//<CR>:let @/=''<CR>`z
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+"|<cursor settings>                                            |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" note: don't need this with neovim, doesn't work properly
+" 		on some terminal emulators
+"let &t_SI = "\<Esc>[5 q" " normal mode - block
+"let &t_SR = "\<Esc>[3 q" " replace mode - underline
+"let &t_EI = "\<Esc>[1 q" " insert mode - line
+
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+" </general settings>                                                  |
+" =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

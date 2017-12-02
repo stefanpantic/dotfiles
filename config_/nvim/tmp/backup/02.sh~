@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ime='Pera'
+prezime='Peric'
+
+echo "$ime"
+echo '$ime'

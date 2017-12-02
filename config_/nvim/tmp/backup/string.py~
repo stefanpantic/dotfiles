@@ -1,0 +1,7 @@
+s = input()
+print ("you wrote " + s)
+
+s = s.casefold()
+print ("you wrote " + s)
+
+

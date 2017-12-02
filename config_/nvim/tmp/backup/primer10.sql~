@@ -1,0 +1,44 @@
+--Spajanje tabela (nastavak)
+
+
+--Korelirano ime (promena imena tabele)
+--Zadatak: Prikazati imena svih studenata koji su rodjeni u istom mestu rodjenja
+--U rezultujucoj tabeli je kao ilustracija prikazano i mesto rodjenja
+select a.ime, b.ime, a.mesto_rodjenja
+from   dosije a, dosije b
+where  a.mesto_rodjenja=b.mesto_rodjenja;
+
+--Korektno resenje, izbegava parove oblika (x,x)
+select a.ime, b.ime, a.mesto_rodjenja
+from   dosije a, dosije b
+where  a.mesto_rodjenja=b.mesto_rodjenja
+and    a.indeks>b.indeks;
+
+--Ne moraju obe tabele da budu kvalifikovane, medjutim neophodno je da nazivi atributa budu jednoznacno odredjeni
+select a.ime, dosije.ime, a.mesto_rodjenja
+from   dosije a, dosije
+where  a.mesto_rodjenja=dosije.mesto_rodjenja
+and    a.indeks>dosije.indeks;
+
+--Primedba: posto se trazi prikaz parova atributa koji nisu primarni kljucevi, 
+--da bi se dobili korektni rezultati tj. parovi oblika (y,y) gde studenti koji su rodjeni u istom gradu
+--imaju isto ime, ali se radi o razlicitim studentima (jer imaju druge brojeve indeksa), 
+--neophodno je da uslov restrikcije xxx>yyy bude po atributu(ili atributima) koji 
+--cine primarni kljuc relacije
+
+
+
+--Ne postoji ogranicenje na broj tabela koje mogu da ucestvuju u spajanju. 
+--Zadatak: Prikazati broj indeksa, broj bodova i nazive svih predmeta koje je polozio student cije mesto rodjenja nije Beograd
+select a.indeks, b.bodovi, c.bodovi, naziv
+from   dosije a, predmet b, ispit c
+where  a.indeks=c.indeks
+and    b.id_predmeta=c.id_predmeta
+and    a.mesto_rodjenja<>'Beograd';
+
+select a.indeks, b.bodovi as "ESPB bodovi predmeta", c.bodovi as "Osvojeno bodova na ispitu", naziv
+from   dosije a, predmet b, ispit c
+where  a.indeks=c.indeks
+and    b.id_predmeta=c.id_predmeta
+and    a.mesto_rodjenja<>'Beograd';
+

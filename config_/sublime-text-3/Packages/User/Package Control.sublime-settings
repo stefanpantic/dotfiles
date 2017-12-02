@@ -1,0 +1,14 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"ActualVim",
+		"All Autocomplete",
+		"Emmet",
+		"One Dark Material - Theme",
+		"Package Control"
+	]
+}

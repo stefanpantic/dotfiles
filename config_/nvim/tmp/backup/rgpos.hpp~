@@ -1,0 +1,22 @@
+#pragma once
+
+namespace rg::detail
+{
+
+	/*
+	* @brief Enum containing eye point movement options
+	*/
+	enum class RGPos
+	{
+		/* Position movement options */
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+
+		/* Stop position movement */
+		STOP_FORWARD,
+		STOP_SIDEWAYS,
+	};
+
+} /* namespace rg::detail */

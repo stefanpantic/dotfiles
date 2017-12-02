@@ -1,0 +1,63 @@
+-- 1.
+predmet[naziv, sifra]
+
+-- 2.
+predmet WHERE bodovi = 6
+
+-- 3.
+(dosije WHERE indeks = 20140025)[ime, prezime]
+
+-- 4a.
+(ispit WHERE ocena = 10)[indeks] UNION (ispit WHERE ocena = 9)[indeks]
+
+-- 4b.
+(ispit WHERE ocena = 10)[indeks] INTERSECT (ispit WHERE ocena = 9)[indeks]
+
+-- 4c.
+(ispit WHERE ocena = 10)[indeks] MINUS (dosije WHERE ocena != 10)[indeks]
+
+-- 5.
+((dosije TIMES ispit) WHERE dosije.datum_rodjenja = ispit.datum_ispita)[indeks, godina_rodjenja, naziv_roka]
+
+-- 6.
+((dosije TIMES ispit) WHERE dosije.indeks = ispit.indeks)[indeks, ime, prezime, id_predemta, ocena]
+
+-- 7.
+ispit[indeks, id_predmeta]
+DIVIDEBY
+predmet[id_predmeta]
+
+-- 8.
+DEFINE ALIAS predmet PX
+DEFINE ALIAS predmet PY
+
+((PX TIMES PY) WHERE PX.bodovi = PY.bodovi AND PX.naziv < PY.naziv)[PX.sifra, PX.naziv, PY.sifra, PY.naziv]
+
+-- 9.
+((ispit TIMES predmet) WHERE naziv = 'Geometrija' AND ispit.id_predmeta = predmet.id_predmeta AND ocena > 5)[indeks] // Pitati dal ovo moze
+
+(ispit WHERE ocena > 5)[indeks] JOIN (predmet WHERE naziv = 'Geometrija')[id_predmeta]
+
+-- 10.
+(ispit where oznaka_roka = 'jan' and godina_roka = 2015)[indeks] join dosije
+
+-- 11.
+dosije[indeks]
+MINUS
+(ispit where oznaka_roka = 'jan')[indeks]
+
+-- 12.
+ispit[id_predmeta, indeks, ime, prezime]
+DIVIDEBY
+dosije[indeks]
+
+-- 13.
+(((ispit WHERE ocena > 5)[indeks, id_predmeta] JOIN (predmet WHERE bodovi > 6)[id_predmeta, naziv])[indeks, naziv] JOIN dosije)[ime, prezime, indeks, naziv]
+
+-- 14.
+((ispit WHERE datum_ispita = '20.01.2015' and ocena > 5)[id_predmeta] UNION (predmet WHERE bodovi > 5)[id_predmeta])[id_predmeta]
+
+-- 15.
+((ispit WHERE ocena > 5) JOIN (predmet WHERE bodovi > 5))
+MINUS
+(ispit WHERE datum_ispita = '20.01.2015')

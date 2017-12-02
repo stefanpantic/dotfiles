@@ -1,0 +1,164 @@
+#include <iostream>
+#include <vector>
+#include <tuple>
+#include <cmath>
+#include <GL/glut.h>
+
+// convenience aliases
+using point = std::tuple<int, int, int>;
+using point_set = std::vector<point>;
+
+// global variables
+static int width{0}, height{0};
+static int old_x{0}, old_y{0};
+static float off_x{0}, off_y{0};
+static int move_vec_x{0}, move_vec_y{0};
+static float look_at_x{0}, look_at_z{-3};
+static float cam_x{0}, cam_y{0};
+
+
+// intializer function -- called once
+void initializer_function();
+
+// callback functions for glut
+void on_display();
+void on_reshape(int w, int h);
+void on_mouse(int key, int state, int x, int y);
+void on_mouse_move(int x, int y);
+void on_keypress(u_char key, int x, int y);
+
+int
+main (int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("first 3D");
+
+	initializer_function();
+
+	glutDisplayFunc(on_display);
+	glutIdleFunc(on_display);
+	glutReshapeFunc(on_reshape);
+	glutKeyboardFunc(on_keypress);
+	glutMouseFunc(on_mouse);
+	glutPassiveMotionFunc(on_mouse_move);
+
+	glutMainLoop();
+
+	return 0;
+}
+
+void initializer_function()
+{
+	glClearColor(0, 0, 0, 0);
+	glEnable(GL_DEPTH_TEST);
+	glutSetCursor(GLUT_CURSOR_NONE);
+	glLineWidth(3);
+
+
+
+}
+
+void on_display()
+{
+	glClear(	GL_COLOR_BUFFER_BIT |
+				GL_DEPTH_BUFFER_BIT);
+
+	glViewport(0, 0, width, height);
+
+	// set the camera
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(
+				look_at_x, 0, look_at_z,
+				0 + look_at_x - off_x, 0 + off_y, 3 + look_at_z,
+				0, 1, 0
+			);
+
+
+	// Draw ground
+	glColor3f(1, 0, 0);
+	glBegin(GL_QUADS);
+		glVertex3f(-100.0f, 0.0f, -100.0f);
+		glVertex3f(-100.0f, 0.0f,  100.0f);
+		glVertex3f( 100.0f, 0.0f,  100.0f);
+		glVertex3f( 100.0f, 0.0f, -100.0f);
+	glEnd();
+
+	// draw some cubes
+	glColor3f(1, 1, 1);
+	glutWireCube(1);
+	glColor3f(1, 0, 1);
+	glutWireCube(5);
+
+	glutSwapBuffers();
+}
+
+void on_reshape(int w, int h)
+{
+	width = w;
+	height = h;
+
+	old_x = width/2;
+	old_y = height/2;
+
+	glutWarpPointer(old_x, old_y);
+}
+
+void on_mouse(int key, int state, int x, int y)
+{
+
+}
+
+void on_mouse_move(int x, int y)
+{
+	y = height - y;
+
+	move_vec_x = x - old_x;
+	move_vec_y = y - old_y;
+
+	off_x += move_vec_x/100.0;
+	off_y += move_vec_y/100.0;
+
+	old_x = x;
+	old_y = y;
+
+}
+
+void on_keypress(u_char key, int x, int y)
+{
+	(void)x;
+	(void)y;
+
+	switch (key) {
+		case 'h':
+			look_at_x += 0.1;
+			break;
+		case 'l':
+			look_at_x -= 0.1;
+			break;
+		case 'k':
+			look_at_z += 0.1;
+			look_at_x -= off_x/10.0;
+			break;
+		case 'j':
+			look_at_z -= 0.1;
+			look_at_x += off_x/10.0;
+			break;
+		case 'a':
+			cam_x += 0.1;
+			break;
+		case 'f':
+			cam_x -= 0.1;
+			break;
+		case 27:
+			exit(0);
+	}
+
+	if (27 == key) {
+		exit(0);
+	}
+}
+

@@ -1,0 +1,7 @@
+#!/bin/sh
+echo '<table>' > result.html
+echo '<thead style="font-weight: bold"><td>Group name</td><td>Password</td><td>GID</td></thead>' >> result.html
+cat /etc/group |
+sed -E 's/^(.*?):[^:]+?$/\1/' |
+sed -E 's/([^:]+):([^:]+):(.*?)/<tr>\n<td>\1<\/td>\n<td>\2<\/td>\n<td>\3<\/td>\n<\/tr>/'
+echo '</table>'

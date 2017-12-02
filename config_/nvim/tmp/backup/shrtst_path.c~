@@ -1,0 +1,157 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <math.h>
+
+#define MAX (100)
+
+void DFS(int v, int n, int stepen[MAX], int posecen[MAX], int graf[MAX][MAX]);
+
+typedef struct cvor{  
+    int vrednost;
+    struct cvor* sledeci;
+}Cvor;
+
+Cvor* noviCvor(int br);
+Cvor* dodajLista(Cvor* lista, int br);
+Cvor* izbaci(Cvor* lista);
+void ispisi(Cvor* lista);
+
+int main(){
+  
+  int n, stepen[MAX], graf[MAX][MAX], posecen[MAX];
+  double tezine[MAX][MAX], t;
+  printf("Unesite broj cvorova grafa\n");
+  scanf("%d", &n);
+  int i, j;
+  for(i=0; i<n; i++){
+      for(j=0; j<n; j++){
+	graf[i][j] = 0;
+	tezine[i][j] = (i == j) ? 0 : INFINITY;
+      }
+  }
+
+  printf("Unesite br grana: ");
+  int br_grana = 0;
+  scanf("%d", &br_grana);
+  printf("Unesite grane grafa u obliku i, j i tezinu te grane\n");
+  for(int m = 0; m < br_grana; ++m)
+  {
+	  scanf("%d%d%lf", &i, &j, &t);
+      graf[i][j] = 1;
+      tezine[i][j] = t;
+  }
+
+  int v;
+  for(v=0; v<n; v++){
+      stepen[v] = -1;
+  }
+  for(v=0; v<n; v++){
+      posecen[v] = 0;
+  }
+  for(v=0; v<n; v++){  
+      DFS(v, n, stepen, posecen, graf);
+  }
+
+  printf("Stepeni: ");
+  for(i=0; i<n; i++){
+     printf("%d ", stepen[i]);
+  }
+  printf("\nUnesite cvor od kojeg trazite rastojanje do ostalih cvorova:");
+  scanf("%d", &v);
+  double NajkraciPut[n];
+  for(i=0; i<n; i++){    
+     NajkraciPut[i] = INFINITY;   
+  }
+  NajkraciPut[v] = 0;
+  int w, z;
+  Cvor* glava = NULL;
+  for(i=0; i<n; i++){
+      if(stepen[i] == 0){
+	  glava = dodajLista(glava, i);
+      }
+  }
+  while(glava != NULL){
+      printf("Lista: ");
+      ispisi(glava);
+      w=glava->vrednost;
+      glava = izbaci(glava);       
+      printf("\n");
+      for(z=0; z<n; z++){
+	  if(graf[w][z] == 1){
+	    if(NajkraciPut[w] + tezine[w][z] < NajkraciPut[z]){
+		NajkraciPut[z] = NajkraciPut[w] + tezine[w][z]; 
+	    }
+	    stepen[z] = stepen[z] -1;	   
+	    if(stepen[z] == 0){
+		if(glava == NULL){
+		    glava = dodajLista(glava, z);
+		}
+		else{		
+		  dodajLista(glava, z);
+		}
+	    }
+	  }
+      }
+  } 
+  printf("\nUdaljenost od cvora %d do svih ostalih cvorova je:\n", v);
+  for(i=0; i<n; i++){
+      printf("%d. %.0lf\n", i, NajkraciPut[i]);
+  }
+  
+ return 0; 
+}
+
+void DFS(int v, int n, int stepen[MAX], int posecen[MAX], int graf[MAX][MAX]){  
+    
+	if(posecen[v])
+	{
+		stepen[v]++;
+		return;
+	}
+
+	stepen[v]+=1;	    
+    posecen[v] = 1;
+    int w;
+    for(w=0; w<n; w++){
+		if(graf[v][w]==1){
+			  DFS(w, n, stepen, posecen, graf);
+		}	
+    }
+    return;
+}
+Cvor* noviCvor(int br){
+    Cvor* novi = malloc(sizeof(Cvor));
+    if(novi == NULL){
+	printf("Greska!\n");
+	exit(EXIT_FAILURE);
+    }
+    novi->vrednost = br;
+    novi->sledeci = NULL;
+    return novi;
+}
+
+Cvor* dodajLista(Cvor* lista, int br){
+    if(lista == NULL){
+	return noviCvor(br);
+    }
+    Cvor* tmp = lista;
+    while(tmp->sledeci != NULL){
+	tmp = tmp->sledeci;
+    }
+    tmp->sledeci = noviCvor(br);
+
+    return lista;
+}
+Cvor* izbaci(Cvor* lista){
+	  if(lista == NULL)
+		  return NULL;
+	  lista=lista->sledeci;  
+    return lista;
+}
+void ispisi(Cvor* lista){
+    while(lista!= NULL){
+	printf("%d ", lista->vrednost);
+	lista=lista->sledeci;
+    }
+}

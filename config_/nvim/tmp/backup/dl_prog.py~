@@ -1,0 +1,95 @@
+#!/usr/bin/python
+
+import sys
+import re
+import os
+from tqdm import tqdm
+import requests as req
+from bs4 import BeautifulSoup as Supa
+
+# defining the colors for output decoration
+C_RED = "\x1b[31m"
+C_GREEN = "\x1b[32m"
+C_YELLOW = "\x1b[33m"
+C_BLUE = "\x1b[34m"
+C_RESET = "\x1b[0m"
+
+# urls
+yt_url = "https://www.youtube.com"
+yt_dl = "http://www.yt2mp3.cc/"
+yt_dl_grab = "http://www.yt2mp3.cc/grab?vidID="
+yt_dl_format = "&format=mp3"
+
+def download(url, name):
+    # streaming so we can iteratr over the response
+    r = req.get(url, stream=True)
+
+    # total size in bytes - adjusted
+    total_size = int(r.headers.get('content-length', 0))/(32*1024)
+
+    with open(name, 'wb+') as song:
+        for data in tqdm(r.iter_content(32*1024), total=total_size, unit='x32Kb', unit_scale=True):
+            song.write(data)
+
+def send_download_request(link):
+    yt2mp3_page = req.get(yt_dl_grab + link + yt_dl_format)
+    yt2mp3_soup = Supa(yt2mp3_page.text, "html5lib")
+    yt2mp3_page.close()
+
+    return yt2mp3_soup.find('a', class_='download-mp3-url btn audio q320')
+
+def main():
+    # make sure we have the appropriate number of command line arguments
+    if 2 != len(sys.argv):
+        exit(1)
+
+    url = sys.argv[1].strip()
+
+    # get and parse the youtube playlist
+    page = req.get(url)
+    page_text = page.text
+    page.close()
+    yt_soup = Supa(page_text, "html5lib")
+
+    # regExp for extracting the part of the link we need
+    yt_href_pat = re.compile('href="(?:.*?)=([^&]+)(?:[^>]+)>([^<]+)')
+    song_list = list()
+
+    # make a new directory with the name of the playlist and cd into it
+    # [:-10] removes the last 10 characters which are ' - YouTube' in this case
+    pl_title = yt_soup.find('title').contents[0][:-10]
+    os.mkdir(pl_title, 0o755)
+    os.chdir(pl_title)
+
+    # extract the links and song names from YouTube
+    for link in yt_soup.find_all('a', class_='pl-video-title-link yt-uix-tile-link yt-uix-sessionlink spf-link '):
+        href_mtc = yt_href_pat.search(str(link));
+        if None != href_mtc:
+            song_list.append((href_mtc.group(1), href_mtc.group(2).strip() + ".mp3"))
+
+    # iterate through the song_list and download each song
+    for song in song_list:
+        print("%sDownloading:%s %s" % (C_GREEN, C_RESET, song[1]))
+
+        # send a 'GET' request to yt2mp3.cc and retreive the download link
+        dl_url = send_download_request(song[0])
+
+        # if the site returned a valid link download the file from it
+        if None != dl_url:
+            download(yt_dl + dl_url['href'], song[1])
+            print("%sDone...%s" % (C_BLUE, C_RESET))
+        else:
+            # try one more time
+            print("%sFailed...\n%sRetrying..%s" % (C_RED, C_YELLOW, C_RESET))
+            dl_url = send_download_request(song[0])
+
+            # if the site returned a valid link download the file from it
+            if None != dl_url:
+                download(yt_dl + dl_url['href'], song[1])
+                print("%sDone...%s" % (C_BLUE, C_RESET))
+            else:
+                print("%sFailed...\n%s" % (C_RED, C_RESET))
+
+# call main() upon script exection
+if "__main__" == __name__:
+    main()

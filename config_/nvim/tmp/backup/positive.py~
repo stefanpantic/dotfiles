@@ -1,0 +1,14 @@
+def main():
+    i = positive_int()
+    print("{} is a positive int".format(i))
+
+def positive_int():
+    while True:
+        tmp = int(input())
+        if tmp >= 1:
+            break
+    return tmp
+
+# you should call main like this
+if "__main__" == __name__:
+    main()

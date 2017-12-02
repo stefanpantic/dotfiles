@@ -1,0 +1,42 @@
+#!/bin/python
+
+import sys
+
+# expression: (a|b+)(a(ab)*|b)+
+current_state = 0
+end_state = (3, 4, 5, 6, 7)
+transition_map = {
+        (0, 'a') : 1,
+        (0, 'b') : 2,
+        (1, 'a') : 3,
+        (2, 'a') : 3,
+        (2, 'b') : 2,
+        (3, 'a') : 4,
+        (3, 'b') : 5,
+        (4, 'a') : 4,
+        (4, 'b') : 6,
+        (5, 'a') : 3,
+        (5, 'b') : 5,
+        (6, 'a') : 7,
+        (6, 'b') : 5,
+        (7, 'a') : 7,
+        (7, 'b') : 6,
+}
+
+character = ''
+while True:
+    try:
+        character = input()
+        current_state = transition_map[(current_state, character)]
+    except KeyError:
+        print("\x1b[31minvalid expression...")
+        sys.exit(1)
+    except EOFError:
+        break
+
+if current_state in end_state:
+    print("\x1b[32mvalid expression...")
+else:
+    print("\x1b[31minvalid expression...")
+    sys.exit(1)
+

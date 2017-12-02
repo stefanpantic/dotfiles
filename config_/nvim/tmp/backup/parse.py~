@@ -1,0 +1,27 @@
+#!/bin/python
+
+import os, sys, re
+
+main_pattern = re.compile(r"""
+    [{]?(?P<main>[^}]+)[}](?P<bonus>[^{]+)*
+""", re.VERBOSE)
+
+tag_pattern = re.compile(r"""
+    (?P<text>[^(?:,\.)]+)(?:[^+]+)[+](?P<tag>[^:]+)(?:.*?)
+""", re.VERBOSE)
+
+file_string = ""
+with open('./test.STN', 'r') as f:
+    file_string = f.read()
+
+with open('./output.xml', 'w') as f:
+    f.write("<xml>\n")
+    for found in main_pattern.finditer(file_string):
+        for tags in tag_pattern.finditer(found.group('main')):
+            f.write("<%s>%s</%s>%s" % (  tags.group('tag'),
+                                         tags.group('text'),
+                                         tags.group('tag'),
+                                         found.group('bonus')))
+    f.write("</xml>")
+
+

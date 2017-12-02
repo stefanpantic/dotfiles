@@ -1,0 +1,89 @@
+#pragma once
+
+#include <iostream>
+#include <tuple>
+
+namespace util
+{
+
+	// %vec3 declaration:
+	// @@{
+	/*
+	* @brief Expansion of std::tuple
+	*
+	* @param Numeric Type of point to store
+	*/
+	template <typename... Args>
+	struct vec3 : public std::tuple<Args...>
+	{
+		/* Default constructor */
+		explicit vec3(Args &&...args);
+
+		/* Copy constructor */
+		explicit vec3(const vec3 &other);
+
+		/* Move constructor */
+		explicit vec3(vec3 &&other);
+
+		/* Access */
+		template <std::size_t pos>
+		auto &get();
+		template <std::size_t pos>
+		const auto &get() const;
+	}; /* class std::tuple<float, float, float> */
+	// @@}
+
+	// %vec3 implementation:
+	// @@{
+	// Construction:
+	// @{
+	/*
+	* @brief Builds %vec3 with passed values.
+	*/
+	template <typename... Args>
+	vec3<Args...>::vec3(Args &&...args)
+		:	std::tuple<Args...>{args...}
+	{
+		std::clog << "Default constructor" << std::endl;
+	}
+
+	/*
+	* @brief Copy constructor.
+	*/
+	template <typename... Args>
+	vec3<Args...>::vec3(const vec3 &other)
+		: std::tuple<Args...>{other}
+	{
+		std::clog << "Copy constructor" << std::endl;
+	}
+
+	/*
+	* @brief Move constructor.
+	*/
+	template <typename... Args>
+	vec3<Args...>::vec3(vec3 &&other)
+		: std::tuple<Args...>{other}
+	{
+		std::clog << "Move constructor" << std::endl;
+	}
+	// @}
+
+	// Value access:
+	// @{
+	template <typename... Args>
+	template <std::size_t pos>
+	decltype(auto) vec3<Args...>::get()
+	{
+		return std::get<pos>(*this);
+	}
+
+	template <typename... Args>
+	template <std::size_t pos>
+	const auto& vec3<Args...>::get() const
+	{
+		return std::get<pos>(*this);
+	}
+	// @}
+	// @@}
+
+} /* namespace std */

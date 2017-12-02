@@ -1,0 +1,32 @@
+#!/bin/python
+
+pocetno_stanje = 0
+trenutno_stanje = pocetno_stanje
+
+mapa_stanja = {
+     ('a', 0) : 1,
+     ('a', 2) : 0,
+     ('a', 1) : 0,
+     ('b', 0) : 2,
+     ('b', 1) : 0,
+     ('b', 2) : 2,
+}
+
+ucitan = 69
+
+while True:
+    try:
+        ucitan = input()
+        trenutno_stanje = mapa_stanja[(ucitan[0], trenutno_stanje)]
+    except EOFError:
+        break
+    except KeyError:
+        trenutno_stanje = 0
+        break
+
+zavrsno_stanje = trenutno_stanje
+
+if 0 != zavrsno_stanje:
+    print("\x1b[34mValidan izraz...")
+else:
+    print("\x1b[31mIzraz nije validan...")

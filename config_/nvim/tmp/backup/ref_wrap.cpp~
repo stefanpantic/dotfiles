@@ -1,0 +1,15 @@
+#include <iostream>
+#include <vector>
+#include <memory>
+
+int
+main (void)
+{
+	std::vector<std::reference_wrapper<int>> ref_vec;
+	int a{5};
+	ref_vec.push_back(a);
+	std::cout << ref_vec[0] << std::endl;
+	a = 10;
+	std::cout << ref_vec[0] << std::endl;
+	return 0;
+}

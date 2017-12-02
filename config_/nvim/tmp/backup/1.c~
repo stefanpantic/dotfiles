@@ -1,0 +1,52 @@
+#define _XOPEN_SOURCE 700
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+
+// maybe
+#include <sys/time.h>
+
+#define FATAL_ERR(msg) ((fatal_err_func(msg, __FILE__, __func__, __LINE__)))
+#define ASSERT_MSG(expr, msg)	\
+	do	\
+	{	\
+		if(!(expr))	\
+			FATAL_ERR(msg);	\
+	} while (false)
+
+void fatal_err_func(const char* msg, const char* file, const char* function, const int line);
+
+typedef struct timeval time_data;
+
+int
+main (void)
+{
+
+	time_data tp;
+	ASSERT_MSG(-1 != gettimeofday(&tp, NULL), "gettimeofday failed");
+
+	struct tm *day = NULL;
+	ASSERT_MSG(NULL != (day = gmtime(&tp.tv_sec)), "gmtime failed");	
+
+	printf("%d\n", day->tm_yday);
+	
+	free(day);
+	return 0;
+}
+
+void fatal_err_func(const char* msg, const char* file, const char* function, const int line)
+{
+	perror(msg);
+	fprintf(stderr, "File: %s\n", file);
+	fprintf(stderr, "Function: %s\n", function);
+	fprintf(stderr, "Line: %d\n", line);
+
+	exit(1);
+}

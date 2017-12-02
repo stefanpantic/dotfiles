@@ -1,0 +1,16 @@
+import os
+import sys
+import random
+
+py_map = {
+        "Batman" : "Bruce Wayne",
+        "Superman" : "Clark Kent",
+        "Flash" : "Barry Allen",
+        "Green Arrow" : "Oliver Queen"
+        }
+
+for (x,y) in py_map.items():
+    print("%s => %s" % (x,y))
+
+for e in py_map.items():
+    print("%s" % e)

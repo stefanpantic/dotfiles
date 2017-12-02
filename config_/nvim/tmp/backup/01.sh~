@@ -1,0 +1,7 @@
+#!/bin/sh
+
+words="../02-aritmetika/words"
+
+broj_reci=$(cat $words | wc -l)
+
+echo "$broj_reci"

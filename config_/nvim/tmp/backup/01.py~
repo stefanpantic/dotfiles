@@ -1,0 +1,37 @@
+#!/bin/python
+
+import sys
+
+# expression (a+|b)+ba?
+current_state = 0
+end_state = (3, 4)
+transition_map = {
+        (0, 'a') : 1,
+        (0, 'b') : 2,
+        (1, 'a') : 1,
+        (1, 'b') : 3,
+        (2, 'a') : 1,
+        (2, 'b') : 3,
+        (3, 'a') : 4,
+        (3, 'b') : 3,
+        (4, 'a') : 1,
+        (4, 'b') : 3,
+}
+
+character = ''
+while True:
+    try:
+        character = input()
+        current_state = transition_map[(current_state, character)]
+    except KeyError:
+        print("\x1b[31minvalid expression...")
+        sys.exit(1)
+    except EOFError:
+        break
+
+if current_state in end_state:
+    print("\x1b[32mvalid expression...")
+else:
+    print("\x1b[31minvalid expression...")
+    sys.exit(1)
+

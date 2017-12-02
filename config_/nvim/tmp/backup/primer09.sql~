@@ -1,0 +1,48 @@
+--Proizvod i spajanje tabela
+
+--Proizvod dve tabele je tabela u kojoj se kombinuju svaki red prve sa
+--svakim redom druge tabele
+--Zadatak: Prikazati sve moguce kombinacije studenata i predmeta koje oni mogu da odaberu
+select * 
+from   dosije, predmet;
+
+select * 
+from   dosije CROSS JOIN predmet;
+
+
+--Kada se u proizvodu napravi neki uslov (spajanja) dobija se spajanje tabela.
+--Zadatak: Prikazati sve ispite koje su polagali pojedinacni studenti. Izvestaj urediti 
+--po broju indeksa studenta i oznaci ispitnog roka u kome je ispit polagan. 
+select * 
+from   dosije, ispit
+where  dosije.indeks=ispit.indeks
+order  by dosije.indeks, ispit.oznaka_roka;
+
+--Da bi se izbeglo ispisivanje atributa iz obe tabele po kojima se vrsi spajanje
+--neophodno je da se eksplicitno navede spisak kvalifikovanih atributa u listi select naredbe
+select dosije.indeks,dosije.ime, dosije.prezime, dosije.datum_rodjenja, dosije.mesto_rodjenja, dosije.datum_upisa, 
+       ispit.id_predmeta, ispit.godina_roka, ispit.oznaka_roka, ispit.ocena, ispit.datum_ispita, ispit.bodovi
+from   dosije, ispit
+where  dosije.indeks=ispit.indeks
+order  by dosije.indeks, ispit.oznaka_roka;
+
+
+--Ekvivalentan zapis gde se kvalifikuju samo atributi koji imaju isto ime u tabelama koje 
+--ucestvuju u spajanju
+select dosije.indeks,ime, prezime, datum_rodjenja, mesto_rodjenja, datum_upisa,
+       id_predmeta, godina_roka, oznaka_roka, ocena, datum_ispita, bodovi
+from   dosije, ispit
+where  dosije.indeks=ispit.indeks
+order  by dosije.indeks, ispit.oznaka_roka;
+
+
+--Ekvivalentan zapis, sa eksplicitnim koriscnjeme kljucne reci JOIN ... ON
+select dosije.indeks,ime, prezime, datum_rodjenja, mesto_rodjenja, datum_upisa,
+       id_predmeta, godina_roka, oznaka_roka, ocena, datum_ispita, bodovi
+from   dosije JOIN ispit 
+ON     dosije.indeks=ispit.indeks
+order  by dosije.indeks, ispit.oznaka_roka;
+
+
+
+

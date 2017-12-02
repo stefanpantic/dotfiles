@@ -1,0 +1,16 @@
+def main():
+    n = int(input())
+    for i in range (n):
+        hello()
+
+    hello_looped(n)
+
+def hello():
+    print ("hello")
+
+def hello_looped(n):
+    for i in range(n):
+        hello()
+
+if "__main__" == __name__:
+    main()

@@ -1,0 +1,28 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+inicijalno = "P"
+stanje = inicijalno
+zavrsno = "P"
+f = {
+    ("P", 0): "N",
+    ("N", 0): "P",
+    ("P", 1): "P",
+    ("N", 1): "N",
+    ("N", 1): "N",
+}
+
+while True:
+    try:
+        akcija = int(input())
+        stanje = f[(stanje, akcija)]
+    except EOFError:
+        break
+    except ValueError as e:
+        print("Dozvoljeno je uneti samo 1 ili 0.")
+        print(e)
+
+if stanje == zavrsno:
+    print("Automat prihvata rec.")
+else:
+    print("Automat ne prihvata rec..")

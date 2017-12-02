@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# pokupi nazive svih direktorijuma u /home
+ls /home |
+# izvuci samo one unose koji odgovaraju formatu indeksa
+grep -Eo '(a(i|f)|m(i|r|m|n|v))[0-9]{5}' |
+# prosledjuj jedan po jedan brojeve indeksa u komandu finger (man finger za info)
+xargs -n 1 finger |
+# ovo linijom cemo uhvatit liniju gde se nalazi broj indeksa i ime, ali cemo odbaciti one unose gde
+# su ime i broj indeksa isti
+grep -P 'Login: (a(i|f)|m(i|r|m|n|v)[0-9]{5})\s*Name: (?!\1)' |
+# oblik 'Login: mr12345				Name: Pera Peric' prebacujemo u oblik 'Pera Peric 345/12'
+sed -r 's/Login: (a(i|f)|m(i|r|m|n|v)([0-9]{2})([0-9]{3}))\s*Name: (.*?)/  \6 \5\/\4/' |
+# sortiramo
+sort |
+# numerisemo
+grep -n .

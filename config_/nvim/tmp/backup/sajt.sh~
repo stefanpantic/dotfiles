@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# dohvatimo .html prosledjene stranice (man curl za vise informacija)
+curl www.matf.bg.ac.rs/svo-osoblje/ -s |
+# podaci koji nama trebaju nalaze se u <h4> tagovima nakon kojih se nalazi <a> tag
+# sa potrebnim informacijama
+grep -oP '<h4><a(.*?)<\/h4>' |
+# sortiramo
+sort |
+# ispisemo u formatu 'Predavac: Ime/Prezime Sajt: Adresa'
+sed -E 's/.* href="([^"]+)" [^>]+>([^<]+).*/Predavac: \2\nSajt: \1\n/'

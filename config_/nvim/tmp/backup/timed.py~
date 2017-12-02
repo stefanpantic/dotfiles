@@ -1,0 +1,22 @@
+import signal
+
+TIMEOUT = 5
+
+def interupted(signum, frame):
+    print("too slow")
+
+signal.signal(signal.SIGALRM, interupted)
+
+def input():
+    try:
+        print("type fast")
+        foo = input()
+        return foo
+    except:
+        return ""
+
+signal.alarm(TIMEOUT)
+s = input()
+signal.alarm(0)
+print("got %s" % s)
+

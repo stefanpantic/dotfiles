@@ -1,0 +1,5 @@
+#!/bin/sh
+curl www.matf.bg.ac.rs/m/180/osnovne-informatika/ -s |
+grep -E '<td><a href=(.*?>)<\/td>' |
+sed -E 's/<td>[^>]+> ?([^<]+).*/\1/' |
+sort

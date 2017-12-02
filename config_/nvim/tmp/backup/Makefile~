@@ -1,0 +1,19 @@
+.PHONY: clean dist
+
+PROGRAM = find-your-way
+CXX = g++
+CXXFLAGS =  -std=c++17 -Wall -Wextra -g
+LDFLAGS = -lGLU -lGL -lglut
+MAIN = main.o
+INCLUDE = include
+SOURCE = src
+
+$(PROGRAM) : $(SOURCE)/* $(MAIN)
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM) $(MAIN) $(SOURCE)/* $(LDFLAGS)
+
+clean:
+	rm -f $(PROGRAM)
+	rm -f *.o
+
+dist:
+	zip .

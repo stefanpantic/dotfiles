@@ -1,0 +1,4 @@
+#!/bin/bash
+to_kill=$(ps aux | grep polybar | awk '/polybar top/{print $2}')
+kill $to_kill
+polybar top

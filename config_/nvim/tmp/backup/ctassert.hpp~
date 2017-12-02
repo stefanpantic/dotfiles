@@ -1,0 +1,9 @@
+#pragma once
+
+#include "rgenum.hpp"
+
+namespace rg
+{
+
+
+} /* namespace rg */

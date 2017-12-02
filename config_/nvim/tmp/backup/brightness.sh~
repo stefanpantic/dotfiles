@@ -1,0 +1,71 @@
+#!/bin/bash
+
+if [ $EUID -ne 0  ];
+then
+	sudo $0 $@
+	exit
+fi
+
+
+brightness_path=/sys/class/backlight/intel_backlight/brightness
+curr_brightness=$(cat $brightness_path)
+
+
+case $1 in
+		-inc)
+			shift
+			if [ $# -lt 1 ];
+			then
+				echo 'inc excepts an argument of val'
+				exit
+			fi
+			curr_brightness=$(expr $curr_brightness '+' $1)
+			if [ $? -ne 0  ];
+			then
+				exit
+			fi
+
+			if [ $curr_brightness -lt 852 ];
+			then
+				echo $curr_brightness > $brightness_path
+				pkill -RTMIN+10 i3blocks
+				exit
+			fi
+			echo 'Value too high'
+			;;
+		-dec)
+			shift
+			if [ $# -lt 1 ];
+			then
+				echo "dec excepts an argument of va"
+				exit
+			fi
+			curr_brightness=$(expr $curr_brightness '-' $1)
+			if [ $? -ne 0  ];
+			then
+				exit
+			fi
+
+			if [ $curr_brightness -gt 0  ];
+			then
+				echo $curr_brightness > $brightness_path
+				pkill -RTMIN+10 i3blocks
+				exit
+			fi
+			echo 'Value too low'
+			;;
+		-set)
+			shift
+			if [ $# -lt 1 ];
+			then
+				echo 'set excepts an argument of val(%)'
+			fi
+
+			new_val=$(expr 852 '*' $1 '/' 100)
+			echo $new_val > $brightness_path
+			pkill -RTMIN+10 i3blocks
+			;;
+		*)
+			echo "Unkown argument"
+			;;
+esac

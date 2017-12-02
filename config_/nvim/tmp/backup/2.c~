@@ -1,0 +1,69 @@
+#define _XOPEN_SOURCE 700
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <sys/wait.h>
+
+#define FATAL_ERR(msg) ((fatal_err_func(msg, __FILE__, __func__, __LINE__)))
+#define ASSERT_MSG(expr, msg)	\
+	do	\
+	{	\
+		if(!(expr))	\
+			FATAL_ERR(msg);	\
+	} while (false)
+
+void fatal_err_func(const char* msg, const char* file, const char* function, const int line);
+
+#define RD_END (0)
+#define WR_END (1)
+
+int   
+main (int argc, char **argv)
+{
+	ASSERT_MSG(2 == argc, "invalid program call: ./2 /dir/file");
+
+	int ctp[2];
+	ASSERT_MSG(-1 != pipe(ctp), "ctp pipe failed");
+
+	pid_t child_pid = fork();
+	ASSERT_MSG(-1 != child_pid, "forking child failed");
+
+	if(0 != child_pid)
+	{
+		char ret[11];
+		ASSERT_MSG(-1 != read(ctp[RD_END], ret, 11), "reading from pipe failed");
+		ret[10] = 0;
+		fprintf(stdout, "%s\n", ret);
+	}
+	else
+	{
+		close(ctp[RD_END]);
+		ASSERT_MSG(-1 != dup2(ctp[WR_END], STDOUT_FILENO), "dup2 failed");
+		ASSERT_MSG(-1 != execlp("ls", "ls", "-l", argv[1], NULL), "execlp failed");
+		close(ctp[WR_END]);
+	}
+
+	int status = 0;
+	ASSERT_MSG(-1 != wait(&status), "waiting failed");
+	if(0 != WEXITSTATUS(status))
+		printf("Neuspeh\n");
+
+	return 0;
+}
+
+void fatal_err_func(const char* msg, const char* file, const char* function, const int line)
+{
+	perror(msg);
+	fprintf(stderr, "File: %s\n", file);
+	fprintf(stderr, "Function: %s\n", function);
+	fprintf(stderr, "Line: %d\n", line);
+
+	exit(1);
+}

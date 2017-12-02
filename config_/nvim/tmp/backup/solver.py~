@@ -1,0 +1,88 @@
+#!/bin/python
+
+import sys, re
+
+# print the player
+def print_kv(k, v):
+    print("name: %s" % k)
+    for (k1, v1) in v.items():
+        print("%s : %s" %(k1, v1))
+
+if len(sys.argv) < 2 or None == re.match(r'^ATP_\d{4}[.]html$', sys.argv[1]):
+    print("Invalid command line arguments...")
+    sys.exit(1)
+
+# capture the country name/code
+country_map = {}
+country_pattern = re.compile(r"""
+    <li[^A-Z]+(?P<ccode>[A-Z]{3})[^>]+>\s*(?P<cname>[^<]+)</li>\s*
+""", re.VERBOSE)
+
+# read the input file
+file_string = ""
+with open(sys.argv[1], 'r') as f:
+    file_string = f.read()
+
+for match in country_pattern.finditer(file_string):
+    country_map.update({match.group('ccode') : match.group('cname')})
+
+# get player info
+player_map = {}
+player_pattern = re.compile(r"""
+   <td[^"]+"rank[^>]+>\s*(?P<rank>\d+)\s*</td>\s*
+   <td[^"]+"move[^>]+>\s*(?P<move>[-|+]?\d+)\s*</td>\s*
+   <td[^"]+"country[^A-Z]+"(?P<ccode>[A-Z]{3})(?:.*?)</td>\s*
+   <td[^"]+"player[^>]+>\s*(?P<player>[A-Za-z ]+)\s*</td>\s*
+   <td[^"]+"age[^>]+>\s*(?P<age>\d+)\s*</td>\s*
+""", re.VERBOSE)
+
+for match in player_pattern.finditer(file_string):
+    player_map.update({ match.group('player') :
+                        {
+                            'rank' : int(match.group('rank')),
+                            'move' : int(match.group('move')),
+                            'ccode' : match.group('ccode'),
+                            'age' : int(match.group('age')),
+                        }})
+
+# sort the map
+sorted_players = sorted(player_map.items(), key=lambda x : x[1]['rank'])
+
+# process the commands with Expressionzilla
+if 2 == len(sys.argv):
+    # no args, print all players
+    print(sorted_players)
+
+elif 3  == len(sys.argv):
+    # -m, list all player who changed rank
+    if '-m' != sys.argv[2]:
+        print("invalid arguments...")
+        sys.exit(1)
+    for (k, v) in sorted_players:
+        if 0 != v['move']:
+            print_kv(k, v)
+
+elif 4 == len(sys.argv):
+    # -c DDD, print players with country code DDD (example: BUL for stab in back)
+    if '-c' != sys.argv[2] or None == re.match('[A-Z]{3}', sys.argv[3]):
+        print("invalid arguments...")
+        sys.exit(1)
+    for (k, v) in sorted_players:
+        if sys.argv[3] == v['ccode']:
+            print_kv(k, v)
+
+elif 5 == len(sys.argv):
+    # -g a b, print players with age in (a, b)
+    if '-g' != sys.argv[2] or None == re.match('\d+', sys.argv[3]) or None == re.match('\d+', sys.argv[4]):
+        print("invalid arguments...")
+        sys.exit(1)
+    begin = int(sys.argv[3])
+    end = int(sys.argv[4])
+    for (k, v) in sorted_players:
+        if v['age'] > begin and v['age'] < end:
+            print_kv(k, v)
+else:
+    # invalid args
+    print("invalid arguments...")
+    sys.exit(1)
+

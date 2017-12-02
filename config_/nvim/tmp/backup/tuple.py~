@@ -1,0 +1,6 @@
+tup = (1,2,3,4, "fdsfA")
+print(tup)
+
+tup_list = list(tup)
+tup_list.append(69)
+tup = tuple(tup_list)
