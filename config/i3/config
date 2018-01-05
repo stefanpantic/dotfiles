@@ -2,7 +2,7 @@
 for_window [class="^.*"] border pixel 0
 
 # Gaps
-gaps inner 7
+gaps inner 5
 gaps outer 0
 smart_gaps on
 
@@ -219,3 +219,4 @@ bindsym $mod+r mode "resize"
 #exec-always --no-startup-id bash -c '~/bin/launch_polybar.sh'
 exec feh --bg-scale ~/Documents/Pictures/i3_walls/1.jpeg
 exec polybar top
+exec compton

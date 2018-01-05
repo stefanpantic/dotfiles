@@ -1,1 +1,1 @@
-/home/whitestar/.local/share/omf/themes/agnoster/fish_prompt.fish
+/home/whitestar/.local/share/omf/themes/bobthefish/fish_prompt.fish

@@ -1,8 +1,0 @@
-c = input()
-if "yes" == c or "y" == c:
-    print ("dope")
-elif "no" == c or "n" == c:
-    print ("not dope")
-else:
-    print ("ok")
-

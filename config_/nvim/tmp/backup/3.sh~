@@ -1,1 +1,0 @@
-#!/bin/sh whoami | sed -E 's/(.*?)/OS: GNU\/Linux\nUser: \1/'

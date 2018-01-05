@@ -752,8 +752,11 @@
             }, {
                "date_added": "0",
                "id": "112",
+               "meta_info": {
+                  "last_visited_desktop": "13151947555774677"
+               },
                "name": "GitHub",
-               "sync_transaction_version": "196",
+               "sync_transaction_version": "233",
                "type": "url",
                "url": "https://github.com/"
             }, {
@@ -1402,7 +1405,7 @@
          "name": "Other bookmarks",
          "type": "folder"
       },
-      "sync_transaction_version": "232",
+      "sync_transaction_version": "233",
       "synced": {
          "children": [  ],
          "date_added": "13151589667087521",

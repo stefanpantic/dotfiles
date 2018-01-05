@@ -1,9 +1,0 @@
-#!/bin/sh
-curl www.matf.bg.ac.rs -s |
-grep -Eo '<\s*a [^>]+>' |
-sed -E 's/.*? href="([^"]+)".*?/\1/' |
-# http prilagodnjeno datim podacima
-grep -Eo '^http.*' |
-sort |
-uniq |
-wc -l

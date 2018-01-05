@@ -1,9 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/whitestar/Github'
-let g:netrw_dirhist_2='/home/whitestar/.config/nvim/ycm_conf'
-let g:netrw_dirhist_3='/home/whitestar/Documents/matf/grafika/learn'
-let g:netrw_dirhist_4='/home/whitestar/.config/nvim/ycm_conf'
-let g:netrw_dirhist_5='/home/whitestar/Documents/matf/grafika/learn'
-let g:netrw_dirhist_6='/home/whitestar/.config/nvim/bundle/auto-pairs'
-let g:netrw_dirhist_7='/home/whitestar/.config/nvim/bundle/auto-pairs/plugin'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/whitestar/Documents/matf/rg/learn/3d/testing_grounds/camera_player_2/camera_test'
+let g:netrw_dirhist_2='/home/whitestar/Documents/matf/ppj/more_python/cas05/04_studenti_seminarski_radovi/seminarski_radovi/mi00003'

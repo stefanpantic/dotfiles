@@ -1,9 +1,0 @@
-import sys
-
-if 2 == len(sys.argv):
-    print ("hello " + sys.argv[1])
-else:
-    print ("hello stranger")
-
-#for i in range (65, 65 + 26):
-#    print("{} is {}".format(chr(i), i))

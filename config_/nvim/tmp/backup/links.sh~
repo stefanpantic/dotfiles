@@ -1,7 +1,0 @@
-#!/bin/bash
-curl www.matf.bg.ac.rs -s |
-grep -o -E '<a .*>.*<\/a>' --color=always |
-grep -P -o '"(.*?)"' --color=always |
-grep -E "http.*" |
-sed -E 's/" ?(http.*)"/\1/' |
-sort

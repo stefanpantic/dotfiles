@@ -1,6 +1,0 @@
-def main():
-    s = input()
-    print(len(s))
-
-if "__main__" == __name__:
-    main()

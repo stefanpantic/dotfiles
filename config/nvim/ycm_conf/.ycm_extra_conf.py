@@ -9,7 +9,7 @@ BASE_FLAGS = [
         '-Wall',
         '-Wextra',
         '-pedantic',
-        '-std=c++14',
+        '-std=c++17',
         '-x',
         'c++',
         '-isystem',

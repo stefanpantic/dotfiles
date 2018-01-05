@@ -26,7 +26,7 @@ filter_unmatched_urls = true
 [colors]
 
 # special
-foreground      = #c6c6c6
+foreground      = #cccccc
 foreground_bold = #abb2bf
 cursor          =
 background      = #101011
@@ -53,7 +53,7 @@ color12 = #008bff
 
 # magenta
 color5  = #a081d3
-color13 = #a791c9
+color13 = #be35ed
 
 # cyan
 color6  = #19aaed
