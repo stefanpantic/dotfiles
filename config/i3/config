@@ -45,6 +45,9 @@ bindsym $mod+Return exec termite -e fish
 # Kill focused window
 bindsym $mod+Shift+q kill
 
+# Lock device
+bindsym $mod+u exec --no-startup-id i3lock-fancy -f Liberation-Mono-for-Powerline -- scrot -z
+
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/bin/brightness.sh -inc 10
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/bin/brightness.sh -dec 10
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/bin/audio-control.sh -inc 1.5dB
@@ -52,8 +55,13 @@ bindsym XF86AudioLowerVolume exec --no-startup-id ~/bin/audio-control.sh -dec 1.
 bindsym XF86AudioMute exec --no-startup-id ~/bin/audio-control.sh -mute
 
 # rofi
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -i -bw 0 -hide-scrollbar -dmenu -p "λ:" -width 80 -l 7 -eh 2 -font "Liberation Mono for Powerline 20" '
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -i -bw 0 -hide-scrollbar -dmenu -p "λ :" -width 80 -l 10 -eh 2 -font "Liberation Mono for Powerline 20" '
 # bindsym Print exec --no-startup-id spectacle
+
+bindsym $mod+Shift+w exec feh --bg-scale ~/Documents/Pictures/i4_walls/$(ls ~/Documents/Pictures/i4_walls/ | shuf -n 1)
+
+# Launch Chromium
+bindsym $mod+c exec --no-startup-id chromium
 
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -115,9 +123,9 @@ bindsym $mod+a focus parent
 #Section: workspace variable
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 set $workspace1 "1: "
-set $workspace2 "2: "
-set $workspace3 "3"
-set $workspace4 "4"
+set $workspace2 "2: "
+set $workspace3 "3: "
+set $workspace4 "4: "
 set $workspace5 "5"
 set $workspace6 "6"
 set $workspace7 "7"
@@ -159,8 +167,9 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 #Section: default position for some applications
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-for_window [class="Firefox"] move container to workspace $workspace2
-for_window [class="Rambox"] move container to workspace $workspace10
+for_window [class="Chromium"] move container to workspace $workspace3
+#for_window [class="Rambox"] move container to workspace $workspace10
+for_window [class="Evince"] move container to workspace $workspace4
 #for_window [title="Gitter"] move container to workspace $workspace10
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -176,7 +185,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3?.' -b 'Exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -217,6 +226,6 @@ bindsym $mod+r mode "resize"
 #}
 
 #exec-always --no-startup-id bash -c '~/bin/launch_polybar.sh'
-exec feh --bg-scale ~/Documents/Pictures/i3_walls/1.jpeg
-exec polybar top
-exec compton
+exec --no-startup-id sh -c '~/.config/i3/slideshow_v2.sh ~/Documents/Pictures/i4_walls'
+exec --no-startup-id polybar top
+exec --no-startup-id compton
