@@ -1,0 +1,19 @@
+Xft.dpi: 120
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgba
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! Copyright: Rasmus Steinke
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: #cc1c1d1e, #111111, #cc111111
+!
+! State:           'bg',     'fg',     'bgalt',  'hlbg',   'hlfg'
+rofi.color-normal: #cc1c1d1e, #ccf3f4f5, #cc1c1d1e, #111111, #875faf
+rofi.color-active: #111111, #875faf, #1c1d1e, #394249, #80cbc4
+rofi.color-urgent: #1c1d1e, #ff1844, #1c1d1e, #394249, #ff1844
