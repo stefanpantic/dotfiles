@@ -6,17 +6,17 @@ gaps inner 5
 gaps outer 0
 smart_gaps on
 
-set $black       #212121
+set $black       #111111
 set $darkblack   #000000
-set $red         #fb4934
+set $red         #ce4444
 set $darkred     #cc241d
-set $green       #b8bb26
+set $green       #20ad80
 set $darkgreen   #98971a
-set $yellow      #fabd2f
+set $yellow      #c4c46b
 set $darkyellow  #d79921
-set $blue        #83a598
+set $blue        #337aa0
 set $darkblue    #458588
-set $magenta     #d3869b
+set $magenta     #975faf
 set $darkmagenta #b16286
 set $cyan        #8ec07c
 set $darkcyan    #689d6a
@@ -227,5 +227,6 @@ bindsym $mod+r mode "resize"
 
 #exec-always --no-startup-id bash -c '~/bin/launch_polybar.sh'
 exec --no-startup-id sh -c '~/.config/i3/slideshow_v2.sh ~/Documents/Pictures/i4_walls'
-exec --no-startup-id polybar top
+exec --no-startup-id sh -c '~/.config/i3/polybar.sh'
+#exec --no-startup-id polybar top
 exec --no-startup-id compton
