@@ -2,7 +2,7 @@
   <remote name="origin"
           fetch="git@github.com:dulex123" />
 
-  <default remote="origin" revisions="master" sync-j="8" sync-c="true" />
+  <default remote="origin" revision="master" sync-j="8" sync-c="true" />
 
   <project name="fn_dataplot" path="fn_dataplot" />
   <project name="fn_front" path="fn_front" />
