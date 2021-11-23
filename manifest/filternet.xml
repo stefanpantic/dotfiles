@@ -1,6 +1,6 @@
 <manifest>
   <remote name="origin"
-          fetch="git://github.com/dulex_123" />
+          fetch="https://github.com/dulex123/" />
 
   <default remote="origin" revision="master" sync-j="8" sync-c="true" />
 
