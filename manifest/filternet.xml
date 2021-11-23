@@ -1,13 +1,13 @@
 <manifest>
   <remote name="origin"
-          fetch="git@github.com:dulex123" />
+          fetch="git://github.com/dulex_123" />
 
   <default remote="origin" revision="master" sync-j="8" sync-c="true" />
 
   <project name="fn_dataplot" path="fn_dataplot" />
-  <project name="fn_front" path="fn_front" />
-  <project name="fn_server" path="fn_server" />
-  <project name="fn_cluster" path="fn_cluster" />
+  <project name="fn_front"    path="fn_front" />
+  <project name="fn_server"   path="fn_server" />
+  <project name="fn_cluster"  path="fn_cluster" />
   <project name="fn_embedder" path="fn_embedder" />
   <project name="fn_readable" path="fn_readable" />
 </manifest>
