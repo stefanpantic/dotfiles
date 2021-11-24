@@ -5,7 +5,7 @@
   <default remote="origin" revision="master" sync-j="8" sync-c="true" />
 
   <project name="fn_dataplot" path="fn_dataplot" />
-  <project name="fn_front"    path="fn_front" />
+  <project name="fn_frontend"    path="fn_frontend" />
   <project name="fn_server"   path="fn_server" />
   <project name="fn_cluster"  path="fn_cluster" />
   <project name="fn_embedder" path="fn_embedder" />
