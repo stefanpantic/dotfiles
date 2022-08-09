@@ -1,9 +1,0 @@
-{
-	"color_scheme": "Packages/One Dark Material - Theme/schemes/OneDark.tmTheme",
-	"ignored_packages":
-	[
-		"Vintage"
-	],
-	"theme": "OneDarkMaterial.sublime-theme",
-	"highlight_line": true
-}

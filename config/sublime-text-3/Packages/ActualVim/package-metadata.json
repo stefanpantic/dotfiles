@@ -1,1 +1,0 @@
-{"sublime_text": ">=3000", "dependencies": [], "platforms": ["*"], "description": "Sublime Text 3 input mode using Neovim", "version": "0.9.15", "url": "https://github.com/lunixbochs/ActualVim"}
